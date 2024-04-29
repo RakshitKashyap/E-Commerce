@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/Product/v1")
+@RequestMapping("/products/v1")
 @Slf4j
 public class ProductCatalogueController {
 
-    private final ProductCatalogueService _service;
+    private final ProductCatalogueService catalogueService;
 
     public ProductCatalogueController(ProductCatalogueService service) {
-        _service = service;
+        catalogueService = service;
     }
 
     @GetMapping("/viewAll")
