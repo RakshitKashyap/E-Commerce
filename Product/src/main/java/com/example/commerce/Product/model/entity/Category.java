@@ -22,6 +22,8 @@ public class Category {
     @Column(unique = true)
     private String CategoryUUID;
 
+    private String CategoryName;
+
     private String description;
 
     private LocalDateTime createdOn;

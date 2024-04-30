@@ -9,6 +9,7 @@ public enum CheckedExceptions {
 
     PRODUCT_NOT_EXIST(404, "Product not Exist"),
     PRODUCT_NOT_AVAILABLE(404, "Product not Available"),
+    NO_CONTENT_AVAILABLE(204, "NO Content Available"),
     INVALID_INPUT(500, "Invalid Input");
 
     private int errorCode;

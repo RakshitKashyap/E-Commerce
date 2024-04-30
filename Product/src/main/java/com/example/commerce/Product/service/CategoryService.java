@@ -1,3 +1,9 @@
 package com.example.commerce.Product.service;
 
-public interface CategoryService {}
+import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
+
+import java.util.List;
+
+public interface CategoryService {
+    List<CategoryResponseDto> viewAllCategories();
+}
