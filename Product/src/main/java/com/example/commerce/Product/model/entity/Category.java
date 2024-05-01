@@ -22,6 +22,7 @@ public class Category {
     @Column(unique = true)
     private String CategoryUUID;
 
+    @Column(unique = true)
     private String CategoryName;
 
     private String description;
