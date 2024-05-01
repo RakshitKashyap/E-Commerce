@@ -1,6 +1,7 @@
 package com.example.commerce.Product.service.impl;
 
 import com.example.commerce.Product.exceptions.CustomExceptions;
+import com.example.commerce.Product.model.DTO.Request.CategoryRequestDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
 import com.example.commerce.Product.model.entity.Category;
 import com.example.commerce.Product.repository.CategoryAssociationRepository;
@@ -34,6 +35,16 @@ public class CategoryServiceImpl implements CategoryService {
         }
         
         return categories.stream().map(element -> convertToResponse(element)).collect(Collectors.toList());
+    }
+
+    @Override
+    public CategoryResponseDto viewCategoryById(Long categoryId) {
+        return null;
+    }
+
+    @Override
+    public CategoryResponseDto addNewCategory(CategoryRequestDto requestDto) {
+        return null;
     }
 
     private CategoryResponseDto convertToResponse(Category category) {
