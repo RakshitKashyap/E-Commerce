@@ -1,5 +1,6 @@
 package com.example.commerce.Product.model.entity;
 
+import com.example.commerce.Product.utils.enums.CategoryRelations;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,8 +32,4 @@ public class CategoryAssociations {
 }
 
 
-@AllArgsConstructor
-@Getter
-enum CategoryRelations{
-    CHILD, PARENT, PRODUCT;
-}
+

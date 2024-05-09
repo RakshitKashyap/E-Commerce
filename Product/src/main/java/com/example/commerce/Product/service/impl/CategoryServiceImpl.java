@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,7 +40,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto viewCategoryById(Long categoryId) {
-        return null;
+
+        if (categoryId == null){
+            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        }
+        Optional<Category> category = categoryRepository.findById(categoryId);
+        if(category.isEmpty()){
+            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        }
+
+        return convertToResponse(category.get());
     }
 
     @Override
@@ -49,6 +59,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     private CategoryResponseDto convertToResponse(Category category) {
         CategoryResponseDto responseDto = new CategoryResponseDto();
-        return null;
+        responseDto.setId(category.getId());
+        responseDto.setCategoryName(category.getCategoryName());
+        responseDto.setDescription(category.getDescription());
+        responseDto.setCreatedOn(category.getCreatedOn());
+        responseDto.setCreatedBy(category.getCreatedBy());
+        responseDto.setModifiedOn(category.getModifiedOn());
+        responseDto.setModifiedBy(category.getModifiedBy());
+        return responseDto;
     }
 }
