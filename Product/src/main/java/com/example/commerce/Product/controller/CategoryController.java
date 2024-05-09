@@ -1,14 +1,18 @@
 package com.example.commerce.Product.controller;
 
 import com.example.commerce.Product.exceptions.CustomExceptions;
+import com.example.commerce.Product.model.DTO.Request.AddAssociateRequestDTO;
 import com.example.commerce.Product.model.DTO.Request.CategoryRequestDto;
+import com.example.commerce.Product.model.DTO.Response.AssociateResponseDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
+import com.example.commerce.Product.service.CategoryAssociationService;
 import com.example.commerce.Product.service.CategoryService;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +25,9 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CategoryAssociationService associationService;
 
     @GetMapping("/viewAll")
     public ResponseEntity viewAllCategories(){
@@ -56,6 +63,20 @@ public class CategoryController {
             return new ResponseEntity(null, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity(responseDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/addAssociation/{categoryId}")
+    public ResponseEntity addCategoryAssociate(@Validated @RequestBody List<AddAssociateRequestDTO> requestListDto, @PathVariable(name = "categoryId")Long categoryId){
+        log.info("initiating api to add association to category for category Id: {}", categoryId);
+        if(Objects.isNull(categoryId) || categoryId.toString().trim().isEmpty()){}
+
+        AssociateResponseDto responseDto = associationService.addCategoryAssociation(categoryId, requestListDto);
+
+
+
+
+
+        return null;
     }
 
 }
