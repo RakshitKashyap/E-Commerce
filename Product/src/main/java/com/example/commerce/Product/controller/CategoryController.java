@@ -54,7 +54,7 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addNewCategory(@RequestBody CategoryRequestDto requestDto){
+    public ResponseEntity addNewCategory(@Validated@RequestBody CategoryRequestDto requestDto){
         if(Objects.isNull(requestDto)){
             throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
         }
@@ -70,13 +70,11 @@ public class CategoryController {
         log.info("initiating api to add association to category for category Id: {}", categoryId);
         if(Objects.isNull(categoryId) || categoryId.toString().trim().isEmpty()){}
 
+        if(Objects.isNull(requestListDto) || requestListDto.isEmpty()){}
+
         AssociateResponseDto responseDto = associationService.addCategoryAssociation(categoryId, requestListDto);
 
-
-
-
-
-        return null;
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
 }

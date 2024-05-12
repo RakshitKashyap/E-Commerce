@@ -12,9 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,7 +56,20 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto addNewCategory(CategoryRequestDto requestDto) {
-        return null;
+
+        Category category = new Category();
+
+        category.setCategoryUUID(UUID.randomUUID().toString());
+        category.setCategoryName(requestDto.getCategoryName());
+        category.setDescription(requestDto.getDescription());
+        category.setCreatedOn(LocalDateTime.now());
+        category.setCreatedBy("user");
+        category.setModifiedOn(LocalDateTime.now());
+        category.setModifiedBy("user");
+        category.setStatus(true);
+
+        category = categoryRepository.save(category);
+        return convertToResponse(category);
     }
 
     private CategoryResponseDto convertToResponse(Category category) {
