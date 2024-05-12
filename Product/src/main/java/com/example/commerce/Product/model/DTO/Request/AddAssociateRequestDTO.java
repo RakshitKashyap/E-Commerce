@@ -13,7 +13,7 @@ import java.util.Map;
 public class AddAssociateRequestDTO {
 
     @NonNull
-    private Long associatedEntity;
+    private Long associatedEntityId;
 
     @NonNull
     private CategoryRelations relations;

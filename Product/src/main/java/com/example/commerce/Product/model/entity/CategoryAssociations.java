@@ -22,7 +22,7 @@ public class CategoryAssociations {
 
     private long mainCategory;
 
-    private long associatedEntity;
+    private long associatedEntityId;
 
     @Enumerated(value = EnumType.STRING)
     private CategoryRelations relation;
