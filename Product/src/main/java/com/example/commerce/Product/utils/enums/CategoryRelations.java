@@ -6,5 +6,10 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum CategoryRelations {
-    CHILD, PARENT, PRODUCT;
+    CHILD_CATEGORY,
+    PARENT_CATEGORY,
+    PRODUCT,
+    ANONYMOUS,
+    BRAND,
+    SIBLING_CATEGORY;
 }

@@ -5,6 +5,7 @@ import com.example.commerce.Product.model.DTO.Request.AddAssociateRequestDTO;
 import com.example.commerce.Product.model.DTO.Request.CategoryRequestDto;
 import com.example.commerce.Product.model.DTO.Response.AssociateResponseDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
+import com.example.commerce.Product.model.entity.Brand;
 import com.example.commerce.Product.service.CategoryAssociationService;
 import com.example.commerce.Product.service.CategoryService;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("category/v1")
+@RequestMapping("/v1/category")
 @Slf4j
 public class CategoryController {
 
@@ -76,5 +77,13 @@ public class CategoryController {
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
+    @PostMapping("/{categoryId}/addBrands")
+    public ResponseEntity addBrandToCategory(@PathVariable(name = "categoryId")String categoryId, List<Brand> brands){
+        return null;
+    }
+
+
+
 
 }

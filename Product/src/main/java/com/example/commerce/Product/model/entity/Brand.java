@@ -9,20 +9,35 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
+@Setter
 @Entity
-public class ProductSpecs {
+public class Brand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long specId;
+    private Long id;
 
-    private String feature;
+    private String brandUUID;
 
-    private String value;
+    private String brandName;
+
+    private String brandDescription;
+
+    private boolean availableStatus;
+
+    private LocalDateTime createdOn;
+
+    private String createdBy;
+
+    private LocalDateTime modifiedOn;
+
+    private String modifiedBy;
 
     private boolean status;
+
 }
