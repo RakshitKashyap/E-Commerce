@@ -11,18 +11,35 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
+@Setter
 @Entity
-public class ProductSpecs {
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long specId;
+    private Long id;
 
-    private String feature;
+    private String locationUUID;
 
-    private String value;
+    private String addressLineOne;
+
+    private String addressLineTwo;
+
+    private String mobile;
+
+    private String zipCode;
+
+    private String city;
+
+    private String state;
+
+    private String country;
+
+    private String lingualPrimary;
+
+    private String lingualSecondary;
 
     private boolean status;
+
 }
