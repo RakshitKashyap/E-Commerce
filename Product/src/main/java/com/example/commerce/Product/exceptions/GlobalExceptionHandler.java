@@ -11,9 +11,11 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorOutput> handleCustomException(CheckedExceptions exception){
         ErrorOutput response = new ErrorOutput(exception.getErrorCode(), exception.getMessage(), LocalDateTime.now());
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(exception.getErrorCode()));
     }
+
+
 }

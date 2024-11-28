@@ -24,7 +24,6 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
-
     @GetMapping("/viewAll")
     public ResponseEntity getAllBrands(){
         log.info("initiating endpoint to GET all brands");
@@ -35,7 +34,7 @@ public class BrandController {
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/viewBy/{brandId}}")
+    @GetMapping("/viewBy/{brandId}")
     public ResponseEntity getBrandById(@PathVariable(name = "brandId")String brandId){
         log.info("initiating endpoint to GET brand by brandId: {} ", brandId);
         if(brandId.trim().isEmpty() || Objects.isNull(brandId.trim())){

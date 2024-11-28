@@ -26,5 +26,5 @@ public class BrandResponseDto {
 
     private LocalDateTime modifiedOn;
 
-    private String modifiedBy;
+     private String modifiedBy;
 }

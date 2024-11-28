@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -59,7 +60,21 @@ public class BrandServiceImpl implements BrandService {
     public List<BrandResponseDto> getByCategoryAssociation(String categoryId) {
 
         Optional<Category> optionalCategory = categoryRepository.findById(Long.parseLong(categoryId));
+        Category category = (optionalCategory.isPresent())?optionalCategory.get():null;
 
+        if(Objects.isNull(category)){
+            return null;
+        }
+
+
+
+        /**
+         * check for the nulol val
+         *
+         * transactional value
+         *
+         * checkn for the inventor
+         */
 
 
         return null;

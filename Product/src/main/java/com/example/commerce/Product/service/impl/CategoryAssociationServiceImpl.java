@@ -74,7 +74,7 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
     }
 
     private String getNameOfEntity(long associatedEntityId, CategoryRelations relation) {
-        if (relation==CategoryRelations.CHILD || relation==CategoryRelations.PARENT){
+        if (relation==CategoryRelations.CHILD_CATEGORY || relation==CategoryRelations.PARENT_CATEGORY){
             CategoryResponseDto category = categoryService.viewCategoryById(associatedEntityId);
             return category.getCategoryName();
         }
