@@ -37,8 +37,6 @@ public class ProductCatalogue {
     @Enumerated(value = EnumType.STRING)
     private ProductStatus productStatus;
 
-    private List<String> tags;
-
     @OneToOne
     @JoinColumn(name = "associated_brand_id")
     private Brand associatedBrand;

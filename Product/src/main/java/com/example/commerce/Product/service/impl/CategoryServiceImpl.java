@@ -4,9 +4,11 @@ import com.example.commerce.Product.exceptions.CustomExceptions;
 import com.example.commerce.Product.model.DTO.Request.CategoryRequestDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
 import com.example.commerce.Product.model.entity.Category;
+import com.example.commerce.Product.model.entity.CategoryAssociations;
 import com.example.commerce.Product.repository.CategoryAssociationRepository;
 import com.example.commerce.Product.repository.CategoryRepository;
 import com.example.commerce.Product.service.CategoryService;
+import com.example.commerce.Product.utils.enums.CategoryRelations;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +72,17 @@ public class CategoryServiceImpl implements CategoryService {
 
         category = categoryRepository.save(category);
         return convertToResponse(category);
+    }
+
+    @Override
+    public List<CategoryAssociations> getAssociationByEntityAndRelation(Long productId, CategoryRelations relation) {
+
+        List<CategoryAssociations> associations = associationRepository.findByRelationAndMainCategory(relation, productId);
+
+        if(associations.isEmpty() || Objects.isNull(associations)){
+            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        }
+        return null;
     }
 
     private CategoryResponseDto convertToResponse(Category category) {

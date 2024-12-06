@@ -1,5 +1,6 @@
 package com.example.commerce.Product.service.impl;
 
+import com.example.commerce.Product.exceptions.CustomExceptions;
 import com.example.commerce.Product.model.DTO.Request.BrandRequestDto;
 import com.example.commerce.Product.model.DTO.Response.BrandResponseDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
@@ -10,6 +11,7 @@ import com.example.commerce.Product.repository.CategoryAssociationRepository;
 import com.example.commerce.Product.repository.CategoryRepository;
 import com.example.commerce.Product.service.BrandService;
 import com.example.commerce.Product.service.CategoryService;
+import com.example.commerce.Product.utils.enums.CheckedExceptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,9 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public BrandResponseDto getBrandById(String brandId) {
+        if(brandId.trim().isEmpty() || Objects.isNull(brandId.trim())){
+            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        }
         Brand brand = brandRepository.findByIdAndAvailableStatus(Long.parseLong(brandId.trim()), true);
         return transformToResponse(brand);
     }
