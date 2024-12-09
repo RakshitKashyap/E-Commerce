@@ -169,7 +169,7 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         catalogue.setProductStatus(requestDto.getProductStatus());
 
         if(Objects.nonNull(requestDto.getAssociatedBrand())){
-
+            catalogue.setAssociatedBrand(requestDto.getAssociatedBrand());
         }
         catalogue.setSpecsList(requestDto.getSpecsList());
         catalogue.setDiscount(requestDto.getDiscount());
