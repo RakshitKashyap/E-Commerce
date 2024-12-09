@@ -21,6 +21,7 @@ public class ProductCatalogueRequestDto {
 
     private String productDescription;
 
+    @NonNull
     private ProductColor productColor;
 
     private Brand associatedBrand;
@@ -31,6 +32,8 @@ public class ProductCatalogueRequestDto {
     private List<ProductSpecs> specsList;
 
     private float maximumRetailPrice;
+
+    private float sellingPrice;
 
     private float discount;
 }

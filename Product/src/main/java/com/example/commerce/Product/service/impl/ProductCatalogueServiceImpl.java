@@ -6,6 +6,7 @@ import com.example.commerce.Product.model.DTO.Request.ProductCatalogueRequestDto
 import com.example.commerce.Product.model.DTO.Response.BrandResponseDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
 import com.example.commerce.Product.model.DTO.Response.ProductCatalogueResponseDto;
+import com.example.commerce.Product.model.entity.Brand;
 import com.example.commerce.Product.model.entity.Category;
 import com.example.commerce.Product.model.entity.CategoryAssociations;
 import com.example.commerce.Product.model.entity.ProductCatalogue;
@@ -21,10 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -157,7 +155,31 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
 
     @Override
     public ProductCatalogueResponseDto addNewProduct(ProductCatalogueRequestDto requestDto) {
-        return null;
+
+        /**
+         * validating  only brand at the moment iff available
+         */
+
+        ProductCatalogue catalogue = new ProductCatalogue();
+
+        catalogue.setProductUUID(UUID.randomUUID().toString());
+        catalogue.setProductName(requestDto.getProductName());
+        catalogue.setProductDescription(requestDto.getProductDescription());
+        catalogue.setProductColor(requestDto.getProductColor());
+        catalogue.setProductStatus(requestDto.getProductStatus());
+
+        if(Objects.nonNull(requestDto.getAssociatedBrand())){
+
+        }
+        catalogue.setSpecsList(requestDto.getSpecsList());
+        catalogue.setDiscount(requestDto.getDiscount());
+        catalogue.setMaximumRetailPrice(requestDto.getMaximumRetailPrice());
+        catalogue.setSellingPrice(requestDto.getSellingPrice());
+        catalogue = catalogueRepository.save(catalogue);
+        ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
+        BeanUtils.copyProperties(catalogue, responseDto);
+
+        return responseDto;
     }
 
     @Override
