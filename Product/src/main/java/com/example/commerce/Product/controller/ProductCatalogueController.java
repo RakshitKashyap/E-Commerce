@@ -4,7 +4,6 @@ import com.example.commerce.Product.exceptions.CustomExceptions;
 import com.example.commerce.Product.model.DTO.Request.FilterRequestDto;
 import com.example.commerce.Product.model.DTO.Request.ProductCatalogueRequestDto;
 import com.example.commerce.Product.model.DTO.Response.ProductCatalogueResponseDto;
-import com.example.commerce.Product.model.entity.ProductCatalogue;
 import com.example.commerce.Product.service.ProductCatalogueService;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
 import lombok.extern.slf4j.Slf4j;

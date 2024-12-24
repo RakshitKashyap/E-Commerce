@@ -68,7 +68,7 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         if(Objects.isNull(brandResponseDto)){
             throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
         }
-        List<ProductCatalogue> productCatalogueList = catalogueRepository.findByAssociatedBrandAndStatus(brandResponseDto.getId(),true);
+        List<ProductCatalogue> productCatalogueList = catalogueRepository.findByAssociatedBrandAndStatus(null,true);
 
         return productCatalogueList.stream().map(productCatalogue -> {
             ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
