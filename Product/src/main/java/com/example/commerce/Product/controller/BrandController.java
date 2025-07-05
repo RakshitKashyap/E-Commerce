@@ -6,6 +6,7 @@ import com.example.commerce.Product.model.DTO.Response.BrandResponseDto;
 import com.example.commerce.Product.service.BrandService;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,6 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
-
     @GetMapping("/viewAll")
     public ResponseEntity getAllBrands(){
         log.info("initiating endpoint to GET all brands");
@@ -35,7 +35,7 @@ public class BrandController {
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/viewBy/{brandId}}")
+    @GetMapping("/viewBy/{brandId}")
     public ResponseEntity getBrandById(@PathVariable(name = "brandId")String brandId){
         log.info("initiating endpoint to GET brand by brandId: {} ", brandId);
         if(brandId.trim().isEmpty() || Objects.isNull(brandId.trim())){
@@ -47,7 +47,7 @@ public class BrandController {
     @GetMapping("/viewBy/{categoryId}")
     public ResponseEntity getBrandsByCategory(@PathVariable(name = "categoryId")String categoryId){
         log.info("initiating endpoint to GET by category :: {}", categoryId);
-        if(categoryId.trim().isEmpty() || Objects.isNull(categoryId.trim())){
+        if(categoryId.trim().isEmpty() || ObjectUtils.isEmpty(categoryId.trim())){
             throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
         }
         List<BrandResponseDto> responseDtoList = brandService.getByCategoryAssociation(categoryId);

@@ -1,5 +1,6 @@
 package com.example.commerce.Product.model.DTO.Request;
 
+import com.example.commerce.Product.model.entity.Brand;
 import com.example.commerce.Product.model.entity.ProductSpecs;
 import com.example.commerce.Product.utils.enums.ProductColor;
 import com.example.commerce.Product.utils.enums.ProductStatus;
@@ -20,14 +21,20 @@ public class ProductCatalogueRequestDto {
 
     private String productDescription;
 
+    @NonNull
     private ProductColor productColor;
+
+    private Brand associatedBrand;
 
     @NonNull
     private ProductStatus productStatus;
 
     private List<ProductSpecs> specsList;
 
+
     private float maximumRetailPrice;
+
+    private float sellingPrice;
 
     private float discount;
 }

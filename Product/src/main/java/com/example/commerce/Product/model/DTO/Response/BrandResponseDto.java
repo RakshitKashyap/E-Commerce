@@ -1,6 +1,7 @@
 package com.example.commerce.Product.model.DTO.Response;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Setter
+@Getter
 @NoArgsConstructor
 public class BrandResponseDto {
 
@@ -26,5 +28,5 @@ public class BrandResponseDto {
 
     private LocalDateTime modifiedOn;
 
-    private String modifiedBy;
+     private String modifiedBy;
 }

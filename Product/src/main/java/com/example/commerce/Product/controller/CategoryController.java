@@ -1,6 +1,7 @@
 package com.example.commerce.Product.controller;
 
 import com.example.commerce.Product.exceptions.CustomExceptions;
+import com.example.commerce.Product.exceptions.GlobalExceptionHandler;
 import com.example.commerce.Product.model.DTO.Request.AddAssociateRequestDTO;
 import com.example.commerce.Product.model.DTO.Request.CategoryRequestDto;
 import com.example.commerce.Product.model.DTO.Response.AssociateResponseDto;
@@ -23,12 +24,15 @@ import java.util.Objects;
 @RequestMapping("/v1/category")
 @Slf4j
 public class CategoryController {
+    private final CategoryService categoryService;
+
+    private final CategoryAssociationService associationService;
 
     @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private CategoryAssociationService associationService;
+    public CategoryController(CategoryAssociationService _categoryAssociation, CategoryService _categoryService) {
+        this.associationService = _categoryAssociation;
+        this.categoryService = _categoryService;
+    }
 
     @GetMapping("/viewAll")
     public ResponseEntity viewAllCategories(){
@@ -69,10 +73,13 @@ public class CategoryController {
     @PostMapping("/addAssociation/{categoryId}")
     public ResponseEntity addCategoryAssociate(@Validated @RequestBody List<AddAssociateRequestDTO> requestListDto, @PathVariable(name = "categoryId")Long categoryId){
         log.info("initiating api to add association to category for category Id: {}", categoryId);
-        if(Objects.isNull(categoryId) || categoryId.toString().trim().isEmpty()){}
+        if(Objects.isNull(categoryId) || categoryId.toString().trim().isEmpty()){
+            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        }
 
-        if(Objects.isNull(requestListDto) || requestListDto.isEmpty()){}
-
+        if(Objects.isNull(requestListDto) || requestListDto.isEmpty()){
+            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        }
         AssociateResponseDto responseDto = associationService.addCategoryAssociation(categoryId, requestListDto);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -80,7 +87,16 @@ public class CategoryController {
 
     @PostMapping("/{categoryId}/addBrands")
     public ResponseEntity addBrandToCategory(@PathVariable(name = "categoryId")String categoryId, List<Brand> brands){
-        return null;
+        log.info("initiating api to add association to Brand for category Id: {}", categoryId);
+        if(Objects.isNull(categoryId) || categoryId.toString().trim().isEmpty()){
+            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        }
+        if(Objects.isNull(brands) || brands.isEmpty()){
+            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        }
+        AssociateResponseDto responseDto = associationService.addCategoryAssociationToBrands(categoryId, brands);
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
 

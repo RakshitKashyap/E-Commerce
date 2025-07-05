@@ -1,6 +1,5 @@
 package com.example.commerce.Product.model.entity;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,22 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
-public class Inventory {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String inventoryUUID;
-
-    private String InventoryName;
-
-    private int maxLimit;
-
-    private int currentHoldings;
-
-    private boolean inventoryStatus;
+public class Basic {
 
     private LocalDateTime createdOn;
 
@@ -36,10 +20,6 @@ public class Inventory {
     private LocalDateTime modifiedOn;
 
     private String modifiedBy;
-
-    @OneToOne
-    @JoinColumn(name = "location_id")
-    private Location location;
 
     private boolean status;
 }

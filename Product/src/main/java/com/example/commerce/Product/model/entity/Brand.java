@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class Brand {
+public class Brand extends Basic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,15 +29,5 @@ public class Brand {
     private String brandDescription;
 
     private boolean availableStatus;
-
-    private LocalDateTime createdOn;
-
-    private String createdBy;
-
-    private LocalDateTime modifiedOn;
-
-    private String modifiedBy;
-
-    private boolean status;
 
 }

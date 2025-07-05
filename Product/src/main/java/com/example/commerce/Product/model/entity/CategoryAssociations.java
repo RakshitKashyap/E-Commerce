@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class CategoryAssociations {
+public class CategoryAssociations  extends Basic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

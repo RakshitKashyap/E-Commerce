@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Currency;
 import java.util.List;
 
 
@@ -19,7 +18,7 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-public class ProductCatalogue {
+public class ProductCatalogue extends Basic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,8 +36,6 @@ public class ProductCatalogue {
     @Enumerated(value = EnumType.STRING)
     private ProductStatus productStatus;
 
-    private List<String> tags;
-
     @OneToOne
     @JoinColumn(name = "associated_brand_id")
     private Brand associatedBrand;
@@ -52,15 +49,5 @@ public class ProductCatalogue {
     private float discount;
 
     private float sellingPrice;
-
-    private LocalDateTime createdOn;
-
-    private String createdBy;
-
-    private LocalDateTime modifiedOn;
-
-    private String modifiedBy;
-
-    private boolean status;
 
 }

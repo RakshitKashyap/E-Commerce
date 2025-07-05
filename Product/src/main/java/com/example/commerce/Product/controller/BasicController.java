@@ -3,18 +3,15 @@ package com.example.commerce.Product.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("Basic/check")
-@Slf4j
+@RequestMapping("/basic")
 public class BasicController {
 
-    @GetMapping("/ping")
+    @GetMapping("/pinging")
     public String getPing(){
-        return "Hello world!!";
+        return "Hello world";
     }
-
     @GetMapping("/ping/{val}")
-    public String gtValuedPing(@PathVariable(name = "val")String val){
+    public String gtValuedPing(@PathVariable(name = "val") String val){
         return ("we've got value :: "+ val);
     }
 }
