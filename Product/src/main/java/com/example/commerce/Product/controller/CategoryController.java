@@ -24,12 +24,15 @@ import java.util.Objects;
 @RequestMapping("/v1/category")
 @Slf4j
 public class CategoryController {
+    private final CategoryService categoryService;
+
+    private final CategoryAssociationService associationService;
 
     @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private CategoryAssociationService associationService;
+    public CategoryController(CategoryAssociationService _categoryAssociation, CategoryService _categoryService) {
+        this.associationService = _categoryAssociation;
+        this.categoryService = _categoryService;
+    }
 
     @GetMapping("/viewAll")
     public ResponseEntity viewAllCategories(){

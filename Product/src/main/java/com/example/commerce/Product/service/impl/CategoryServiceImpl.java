@@ -87,7 +87,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private CategoryResponseDto convertToResponse(Category category) {
         CategoryResponseDto responseDto = new CategoryResponseDto();
-        responseDto.setId(category.getId());
+        responseDto.setId(category.getCategoryId());
         responseDto.setCategoryName(category.getCategoryName());
         responseDto.setDescription(category.getDescription());
         responseDto.setCreatedOn(category.getCreatedOn());

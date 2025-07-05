@@ -7,6 +7,7 @@ import com.example.commerce.Product.model.DTO.Response.ProductCatalogueResponseD
 import com.example.commerce.Product.service.ProductCatalogueService;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class ProductCatalogueController {
 
     private final ProductCatalogueService catalogueService;
 
+    @Autowired
     public ProductCatalogueController(ProductCatalogueService service) {
         catalogueService = service;
     }

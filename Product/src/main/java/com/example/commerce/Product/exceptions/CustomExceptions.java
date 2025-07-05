@@ -6,7 +6,7 @@ public class CustomExceptions  extends RuntimeException{
 
     private final CheckedExceptions checkedExceptions;
 
-    public CustomExceptions(CheckedExceptions exceptions) {
+        public CustomExceptions(CheckedExceptions exceptions) {
         super(exceptions.getMessage());
         this.checkedExceptions = exceptions;
     }

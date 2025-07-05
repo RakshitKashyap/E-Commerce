@@ -105,3 +105,4 @@ public class BrandServiceImpl implements BrandService {
         return false;
     }
 }
+//https://novellive.app/book/supreme-harem-god-system/cchapter-250-so-this-mist-is-it-from-your-curse

@@ -18,7 +18,7 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-public class ProductCatalogue {
+public class ProductCatalogue extends Basic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,15 +49,5 @@ public class ProductCatalogue {
     private float discount;
 
     private float sellingPrice;
-
-    private LocalDateTime createdOn;
-
-    private String createdBy;
-
-    private LocalDateTime modifiedOn;
-
-    private String modifiedBy;
-
-    private boolean status;
 
 }

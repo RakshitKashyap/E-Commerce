@@ -31,6 +31,7 @@ public class ProductCatalogueRequestDto {
 
     private List<ProductSpecs> specsList;
 
+
     private float maximumRetailPrice;
 
     private float sellingPrice;

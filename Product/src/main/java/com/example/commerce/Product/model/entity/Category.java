@@ -12,13 +12,12 @@ import java.util.List;
 @Setter
 @Entity
 @Data
-public class Category {
+public class Category extends Basic{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long categoryId;
 
-    @NonNull
     @Column(unique = true)
     private String CategoryUUID;
 
@@ -27,13 +26,4 @@ public class Category {
 
     private String description;
 
-    private LocalDateTime createdOn;
-
-    private String createdBy;
-
-    private LocalDateTime modifiedOn;
-
-    private String modifiedBy;
-
-    private boolean status;
 }
