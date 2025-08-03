@@ -1,6 +1,7 @@
 package com.example.Order_Service.Order.service;
 
 import com.example.Order_Service.Order.models.entity.Order;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface OrderService {
     Order createNewOrder(Order order);
 
     Order updateOrder(String orderId, Order order);
+
+    boolean deleteOrder(String orderId);
 }
