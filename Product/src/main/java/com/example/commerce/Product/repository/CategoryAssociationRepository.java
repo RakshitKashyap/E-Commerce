@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CategoryAssociationRepository extends JpaRepository<CategoryAssociations, Long> {
-    List<CategoryAssociations> findByRelationAndMainCategory(CategoryRelations product, long parseLong);
+
+    List<CategoryAssociations> findByRelationAndMainCategoryAndStatusTrue(CategoryRelations childCategory, Long categoryId);
 }

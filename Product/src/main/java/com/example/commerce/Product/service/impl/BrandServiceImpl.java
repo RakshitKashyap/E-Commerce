@@ -47,13 +47,20 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public BrandResponseDto getBrandById(String brandId) {
+    public BrandResponseDto getBrandDtoById(String brandId) {
         if(brandId.trim().isEmpty() || Objects.isNull(brandId.trim())){
             throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
         }
         Brand brand = brandRepository.findByIdAndAvailableStatus(Long.parseLong(brandId.trim()), true);
         return transformToResponse(brand);
     }
+
+    public Brand getBrandById(String brandId) {
+        if(brandId.trim().isEmpty() || Objects.isNull(brandId.trim())){
+            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        }
+        return brandRepository.findByIdAndAvailableStatus(Long.parseLong(brandId.trim()), true);
+   }
 
     /**
      * userMaketingAttribute

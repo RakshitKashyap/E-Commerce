@@ -21,6 +21,7 @@ import com.example.commerce.Product.utils.enums.CheckedExceptions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,7 +51,7 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
     @Override
     public List<ProductCatalogueResponseDto> getAllAvailableProducts() {
         List<ProductCatalogue> productCatalogues = catalogueRepository.findAll().stream().filter(product->product.isStatus()).collect(Collectors.toList());
-        if(productCatalogues.isEmpty()|| Objects.isNull(productCatalogues)){
+        if(CollectionUtils.isEmpty(productCatalogues)){
             throw new CustomExceptions(CheckedExceptions.NO_CONTENT_AVAILABLE);
         }
 
@@ -64,18 +65,17 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
     @Override
     public List<ProductCatalogueResponseDto> getAllProductsByBrand(String brandId) {
 
-        BrandResponseDto brandResponseDto = brandService.getBrandById(brandId);
-        if(Objects.isNull(brandResponseDto)){
-            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        Brand brand = brandService.getBrandById(brandId);
+        if(Objects.isNull(brand)){
+            throw new CustomExceptions(CheckedExceptions.INVALID_BRAND);
         }
-        List<ProductCatalogue> productCatalogueList = catalogueRepository.findByAssociatedBrandAndStatus(null,true);
+        List<ProductCatalogue> productCatalogueList = catalogueRepository.findByAssociatedBrandAndStatus(brand,true);
 
         return productCatalogueList.stream().map(productCatalogue -> {
             ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
             BeanUtils.copyProperties(productCatalogue,responseDto);
             return responseDto;
         }).collect(Collectors.toList());
-
     }
 
     @Override
@@ -83,8 +83,16 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         CategoryResponseDto categoryResponseDto = categoryService.viewCategoryById(Long.parseLong(categoryId));
 
         if(Objects.isNull(categoryResponseDto)){
-            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+            throw new CustomExceptions(CheckedExceptions.INVALID_CATEGORY);
         }
+
+        List<String> categories = new ArrayList<>();
+        categories.add(categoryId);
+        // show all product in that category, and it's respective sub-categories and sibling categories
+        List<Category> subCategories = associationService.fetchAllRelatedCategories(categoryResponseDto.getId());
+
+
+
 
         List<Long> productList = associationService.findProductsByRelationAndMainCategory(CategoryRelations.PRODUCT, categoryId);
 

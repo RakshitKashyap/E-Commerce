@@ -7,6 +7,7 @@ import com.example.commerce.Product.model.DTO.Response.ProductCatalogueResponseD
 import com.example.commerce.Product.service.ProductCatalogueService;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,8 +38,8 @@ public class ProductCatalogueController {
     @GetMapping("/view/brand/{brandId}")
     public ResponseEntity getAllProductsByBrand(@PathVariable(name = "brandId")String brandId){
         log.info("initiating endpoint to get all Available Products for a brand :: {}", brandId);
-        if(brandId.trim().isEmpty() || Objects.isNull(brandId)){
-            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+        if(StringUtils.isEmpty(brandId)){
+            throw new CustomExceptions(CheckedExceptions.INVALID_BRAND);
         }
         List<ProductCatalogueResponseDto> catalogueResponseDtoList = catalogueService.getAllProductsByBrand(brandId);
         if( Objects.isNull(catalogueResponseDtoList) || catalogueResponseDtoList.isEmpty()){

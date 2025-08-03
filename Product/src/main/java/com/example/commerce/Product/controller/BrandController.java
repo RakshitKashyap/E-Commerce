@@ -41,7 +41,7 @@ public class BrandController {
         if(brandId.trim().isEmpty() || Objects.isNull(brandId.trim())){
             throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
         }
-        return new ResponseEntity(brandService.getBrandById(brandId), HttpStatus.OK);
+        return new ResponseEntity(brandService.getBrandDtoById(brandId), HttpStatus.OK);
     }
 
     @GetMapping("/viewBy/{categoryId}")

@@ -7,6 +7,7 @@ import com.example.commerce.Product.model.DTO.Response.AssociateResponseDto;
 import com.example.commerce.Product.model.DTO.Response.BrandResponseDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
 import com.example.commerce.Product.model.entity.Brand;
+import com.example.commerce.Product.model.entity.Category;
 import com.example.commerce.Product.model.entity.CategoryAssociations;
 import com.example.commerce.Product.repository.CategoryAssociationRepository;
 import com.example.commerce.Product.service.BrandService;
@@ -15,9 +16,9 @@ import com.example.commerce.Product.service.CategoryService;
 import com.example.commerce.Product.utils.enums.CategoryRelations;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.engine.internal.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +67,9 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
     @Override
     public AssociateResponseDto addCategoryAssociationToBrands(String categoryId, List<Brand> brands) {
         AssociateResponseDto responseDto = new AssociateResponseDto();
+
         CategoryResponseDto category = categoryService.viewCategoryById(Long.parseLong(categoryId));
+
         responseDto.setCategoryId(category.getId());
         responseDto.setCategoryName(category.getCategoryName());
 
@@ -74,9 +77,9 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
         List<AssociateEntitiesResponse> associateEntitiesResponses = new ArrayList<>();
 
         for(Brand brand:brands){
-            BrandResponseDto check = brandService.getBrandById(brand.getId().toString());
+            BrandResponseDto check = brandService.getBrandDtoById(brand.getId().toString());
             if(Objects.isNull(check)){
-                throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+                throw new CustomExceptions(CheckedExceptions.INVALID_BRAND);
             }
             CategoryAssociations associations = new CategoryAssociations();
             associations.setAssociationUUID(UUID.randomUUID().toString());
@@ -106,10 +109,36 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
         }
 
         return associationRepository
-        .findByRelationAndMainCategory(product, Long.parseLong(categoryId))
+        .findByRelationAndMainCategoryAndStatusTrue(product, Long.parseLong(categoryId))
         .stream()
         .mapToLong(entity -> entity.getAssociatedEntityId()).boxed().collect(Collectors.toList());
 
+    }
+    @Override
+    public List<Category> fetchAllRelatedCategories(Long categoryId) {
+        if(Objects.isNull(categoryId)){
+            throw new CustomExceptions(CheckedExceptions.INVALID_CATEGORY);
+        }
+        Category mainCategory = categoryService.fetchCategory(categoryId);
+
+        List<Category> responseList = new ArrayList<>();
+        responseList.add(mainCategory);
+        // now fetch all child and siblings categories
+        List<CategoryAssociations> associationsList = associationRepository.findByRelationAndMainCategoryAndStatusTrue(CategoryRelations.CHILD_CATEGORY, mainCategory.getCategoryId());
+        associationsList.addAll(associationRepository.findByRelationAndMainCategoryAndStatusTrue(CategoryRelations.SIBLING_CATEGORY, mainCategory.getCategoryId()));
+
+        log.info("Associated List size: "+ associationsList.size());
+        List<Category> categories = fetchAllCategoriesFromAssociationList(associationsList);
+
+        if(!CollectionUtils.isEmpty(categories)){
+            responseList.addAll(categories);
+        }
+        return responseList;
+    }
+
+    private List<Category> fetchAllCategoriesFromAssociationList(List<CategoryAssociations> associationsList) {
+        List<Category> categories =  associationsList.stream().map(association -> categoryService.fetchCategory(association.getAssociatedEntityId())).collect(Collectors.toList());
+        return CollectionUtils.isEmpty(categories)?null:categories;
     }
 
     private AssociateResponseDto convertToAssociateResponse(List<CategoryAssociations> associates, CategoryResponseDto category) {

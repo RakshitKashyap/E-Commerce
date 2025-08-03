@@ -2,6 +2,7 @@ package com.example.commerce.Product.service;
 
 import com.example.commerce.Product.model.DTO.Request.CategoryRequestDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
+import com.example.commerce.Product.model.entity.Category;
 import com.example.commerce.Product.model.entity.CategoryAssociations;
 import com.example.commerce.Product.utils.enums.CategoryRelations;
 
@@ -15,4 +16,6 @@ public interface CategoryService {
     CategoryResponseDto addNewCategory(CategoryRequestDto requestDto);
 
     List<CategoryAssociations> getAssociationByEntityAndRelation(Long productId, CategoryRelations relation);
+
+    Category fetchCategory(Long categoryId);
 }

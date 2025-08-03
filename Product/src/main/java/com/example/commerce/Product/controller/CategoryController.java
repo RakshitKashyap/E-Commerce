@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,15 +92,12 @@ public class CategoryController {
         if(Objects.isNull(categoryId) || categoryId.toString().trim().isEmpty()){
             throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
         }
-        if(Objects.isNull(brands) || brands.isEmpty()){
+        if(CollectionUtils.isEmpty(brands)){
             throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
         }
         AssociateResponseDto responseDto = associationService.addCategoryAssociationToBrands(categoryId, brands);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
-
-
-
 
 }
