@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ProductCatalogueRepository extends JpaRepository<ProductCatalogue, Long> {
-    List<ProductCatalogue> findByAssociatedBrandAndStatus(Brand brand, boolean b);
+    List<ProductCatalogue> findByAssociatedBrand(Brand brand);
 }

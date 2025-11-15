@@ -2,15 +2,9 @@ package com.example.commerce.Product.model.entity;
 
 import com.example.commerce.Product.utils.enums.CategoryRelations;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 public class CategoryAssociations  extends Basic {
 

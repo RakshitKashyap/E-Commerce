@@ -3,21 +3,15 @@ package com.example.commerce.Product.model.entity;
 import com.example.commerce.Product.utils.enums.ProductColor;
 import com.example.commerce.Product.utils.enums.ProductStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table
-@Getter
-@Setter
+@Data
 public class ProductCatalogue extends Basic {
 
     @Id

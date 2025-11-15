@@ -3,7 +3,6 @@ package com.example.commerce.Product.service.impl;
 import com.example.commerce.Product.exceptions.CustomExceptions;
 import com.example.commerce.Product.model.DTO.Request.FilterRequestDto;
 import com.example.commerce.Product.model.DTO.Request.ProductCatalogueRequestDto;
-import com.example.commerce.Product.model.DTO.Response.BrandResponseDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
 import com.example.commerce.Product.model.DTO.Response.ProductCatalogueResponseDto;
 import com.example.commerce.Product.model.entity.Brand;
@@ -69,7 +68,7 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         if(Objects.isNull(brand)){
             throw new CustomExceptions(CheckedExceptions.INVALID_BRAND);
         }
-        List<ProductCatalogue> productCatalogueList = catalogueRepository.findByAssociatedBrandAndStatus(brand,true);
+        List<ProductCatalogue> productCatalogueList = catalogueRepository.findByAssociatedBrand(brand);
 
         return productCatalogueList.stream().map(productCatalogue -> {
             ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
@@ -90,15 +89,9 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         categories.add(categoryId);
         // show all product in that category, and it's respective sub-categories and sibling categories
         List<Category> subCategories = associationService.fetchAllRelatedCategories(categoryResponseDto.getId());
-
-
-
-
         List<Long> productList = associationService.findProductsByRelationAndMainCategory(CategoryRelations.PRODUCT, categoryId);
-
-
         List<ProductCatalogue> productCatalogueList = catalogueRepository.findAll().stream()
-                .filter(productCatalogue ->     productList.contains(productCatalogue.getProductId()))
+                .filter(productCatalogue ->  productList.contains(productCatalogue.getProductId()))
                 .collect(Collectors.toList());
 
         return productCatalogueList.stream().map(productCatalogue -> {
@@ -106,7 +99,6 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
             BeanUtils.copyProperties(productCatalogue,responseDto);
             return responseDto;
         }).collect(Collectors.toList());
-
 
     }
 
