@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,9 +40,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findOrderByStatusId(int orderStatusId) {
-        if(Objects.isNull(OrderStatus.getValue(orderStatusId))){
-            return null;
-        }
+
         List<Order> orderList = orderRepository.findAll();
         return orderList.stream().filter(order -> order.getOrderStatus().getId()==orderStatusId).collect(Collectors.toList());
 
@@ -49,11 +48,31 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order createNewOrder(Order order) {
-        return null;
+        order.setOrderUUID(UUID.randomUUID().toString());
+        order = orderRepository.save(order);
+        return order;
     }
 
     @Override
     public Order updateOrder(String orderId, Order order) {
-        return null;
+        Order order1 = findOrderByOrderId(orderId);
+        order1.setUserId(123L);
+        order1.setOrderUUID(UUID.randomUUID().toString());
+        order1.setPaymentId(order.getPaymentId());
+        order1.setOrderStatus(order.getOrderStatus());
+        order1.setOrderDateTime(order.getOrderDateTime());
+        order1.setTotalAmount(order.getTotalAmount());
+        orderRepository.save(order1);
+        return order1;
+    }
+
+    @Override
+    public boolean deleteOrder(String orderId) {
+        Order order = findOrderByOrderId(orderId);
+        if(order==null)
+            return false;
+        order.setStatus(false);
+        orderRepository.save(order);
+        return true;
     }
 }

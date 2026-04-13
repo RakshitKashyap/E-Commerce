@@ -1,17 +1,13 @@
 package com.example.commerce.Product.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.MappedSuperclass;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-public class Basic {
+@Data
+@MappedSuperclass
+public class Audit {
 
     private LocalDateTime createdOn;
 

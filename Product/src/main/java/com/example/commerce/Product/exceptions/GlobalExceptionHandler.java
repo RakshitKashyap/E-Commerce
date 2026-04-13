@@ -10,12 +10,15 @@ import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorOutput> handleCustomException(CheckedExceptions exception){
+    @ExceptionHandler(CustomExceptions.class)
+    public ResponseEntity<ErrorOutput> handleCustomException(CustomExceptions exception){
         ErrorOutput response = new ErrorOutput(exception.getErrorCode(), exception.getMessage(), LocalDateTime.now());
         return new ResponseEntity<>(response, HttpStatusCode.valueOf(exception.getErrorCode()));
     }
 
-
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorOutput> handleAnyException(Exception ex) {
+        ErrorOutput response = new ErrorOutput(500, "An unexpected error occurred", LocalDateTime.now());
+        return ResponseEntity.internalServerError().body(response);
+    }
 }

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-public class ProductSpecs extends Basic{
+public class ProductSpecs extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

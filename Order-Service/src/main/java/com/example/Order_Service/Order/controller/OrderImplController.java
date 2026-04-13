@@ -10,11 +10,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Logger;
 
-@RestController("/api/v1/orders")
 @Slf4j
-public class OrderController {
-
+@RestController
+public class OrderImplController implements OrderController {
 
     @Autowired
     private OrderService orderService;
@@ -34,8 +35,11 @@ public class OrderController {
     }
 
     @GetMapping("/status/{status")
-    public ResponseEntity getOrderByStatus(@PathVariable(name="orderStatus")int orderStatusId){
+    public ResponseEntity getOrderByStatus(@PathVariable(name="status")int orderStatusId){
         log.info("initiating endpoint to get Order by statusID :{}", orderStatusId);
+        if(Objects.isNull(orderStatusId)){
+            return null;
+        }
         List<Order> orderList = orderService.findOrderByStatusId(orderStatusId);
         return new ResponseEntity(orderList, HttpStatusCode.valueOf(200));
     }
@@ -43,7 +47,6 @@ public class OrderController {
     @PostMapping("/new")
     public ResponseEntity createNewOrder(@Validated @RequestBody Order order){
         log.info("initiating endpoint to create new Order");
-
         Order orderResponse = orderService.createNewOrder(order);
         return new ResponseEntity(orderResponse, HttpStatusCode.valueOf(201));
     }
@@ -62,8 +65,4 @@ public class OrderController {
         return new ResponseEntity(response, HttpStatusCode.valueOf(200));
     }
 
-
-
-
 }
-

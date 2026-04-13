@@ -8,9 +8,6 @@ import java.util.List;
 
 @Repository
 public interface BrandRepository extends JpaRepository<Brand, Long> {
-    List<Brand> findAllByStatus(boolean b);
-
-    List<Brand> findAllByAvailableStatus(boolean b);
-
-    Brand findByIdAndAvailableStatus(long parseLong, boolean b);
+    List<Brand> findByStatus(boolean b);
+    Brand findByIdAndStatus(long parseLong, boolean b);
 }

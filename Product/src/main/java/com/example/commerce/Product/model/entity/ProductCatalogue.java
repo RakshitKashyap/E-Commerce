@@ -3,22 +3,15 @@ package com.example.commerce.Product.model.entity;
 import com.example.commerce.Product.utils.enums.ProductColor;
 import com.example.commerce.Product.utils.enums.ProductStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table
-@Getter
-@Setter
-public class ProductCatalogue extends Basic {
+@Data
+public class ProductCatalogue extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,12 +29,12 @@ public class ProductCatalogue extends Basic {
     @Enumerated(value = EnumType.STRING)
     private ProductStatus productStatus;
 
-    @OneToOne
-    @JoinColumn(name = "associated_brand_id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
     private Brand associatedBrand;
 
-    @OneToMany
-    @JoinColumn(name = "specs_list_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "product_id")
     private List<ProductSpecs> specsList;
 
     private float maximumRetailPrice;

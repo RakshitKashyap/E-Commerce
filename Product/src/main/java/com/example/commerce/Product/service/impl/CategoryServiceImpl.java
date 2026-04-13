@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         Optional<Category> category = categoryRepository.findById(categoryId);
         if(category.isEmpty()){
-            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
+            throw new CustomExceptions(CheckedExceptions.INVALID_CATEGORY);
         }
 
         return convertToResponse(category.get());
@@ -69,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setModifiedOn(LocalDateTime.now());
         category.setModifiedBy("user");
         category.setStatus(true);
-
+        log.info("saving entity >> "+category.toString());
         category = categoryRepository.save(category);
         return convertToResponse(category);
     }
@@ -77,12 +77,17 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryAssociations> getAssociationByEntityAndRelation(Long productId, CategoryRelations relation) {
 
-        List<CategoryAssociations> associations = associationRepository.findByRelationAndMainCategory(relation, productId);
+        List<CategoryAssociations> associations = associationRepository.findByRelationAndMainCategoryAndStatusTrue(relation, productId);
 
         if(associations.isEmpty() || Objects.isNull(associations)){
             throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
         }
         return null;
+    }
+
+    @Override
+    public Category fetchCategoryByCategoryId(Long categoryId) {
+        return categoryRepository.findById(categoryId).get();
     }
 
     private CategoryResponseDto convertToResponse(Category category) {

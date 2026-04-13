@@ -1,13 +1,11 @@
 package com.example.Order_Service.Order.utility.Enum;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.Arrays;
 
-@AllArgsConstructor
 @Getter
 public enum OrderStatus {
+
   PENDING(1, "Pending"),
   CONFIRMED(2, "Confirmed"),
   SHIPPED(3, "Shipped"),
@@ -17,12 +15,10 @@ public enum OrderStatus {
   INVALID(7, "Invalid");
 
   private int id;
-  private String status;
+  private String statusMessage;
 
-  public static OrderStatus getValue(int id) {
-    return Arrays.stream(OrderStatus.values())
-        .filter(status -> status.getId() == id)
-        .findFirst()
-        .orElse(OrderStatus.INVALID);
+  private OrderStatus(int id, String statusMessage) {
+    this.id = id;
+    this.statusMessage = statusMessage;
   }
 }
