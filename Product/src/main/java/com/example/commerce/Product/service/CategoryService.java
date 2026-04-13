@@ -17,5 +17,5 @@ public interface CategoryService {
 
     List<CategoryAssociations> getAssociationByEntityAndRelation(Long productId, CategoryRelations relation);
 
-    Category fetchCategory(Long categoryId);
+    Category fetchCategoryByCategoryId(Long categoryId);
 }

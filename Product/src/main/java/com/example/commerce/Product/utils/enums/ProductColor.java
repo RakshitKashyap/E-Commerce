@@ -8,17 +8,19 @@ import lombok.Getter;
 public enum ProductColor {
 
     WHITE(1, "White"),
-    BLACK(1, "Black"),
-    RED(1, "Red"),
-    GREEN(1, "Green"),
-    BLUE(1, "Blue"),
-    VIOLET(1, "Violet"),
-    GOLD(1, "Gold"),
-    PINK(1, "Pink"),
-    ORANGE(1, "Orange"),
-    GREY(1, "Grey"),
-    BROWN(1, "Brown"),
-    YELLOW(1, "Yellow");
+    BLACK(2, "Black"),
+    RED(3, "Red"),
+    GREEN(4, "Green"),
+    BLUE(5, "Blue"),
+    VIOLET(6, "Violet"),
+    GOLD(7, "Gold"),
+    PINK(8, "Pink"),
+    ORANGE(9, "Orange"),
+    GREY(10, "Grey"),
+    BROWN(11, "Brown"),
+    YELLOW(12, "Yellow"),
+    SILVER(13,"Silver");
+
 
 
     private int colorCode;

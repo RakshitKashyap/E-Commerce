@@ -6,6 +6,7 @@ import com.example.commerce.Product.model.DTO.Request.ProductCatalogueRequestDto
 import com.example.commerce.Product.model.DTO.Response.ProductCatalogueResponseDto;
 import com.example.commerce.Product.service.ProductCatalogueService;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,10 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/products/v1")
 @Slf4j
+@RequiredArgsConstructor
 public class ProductCatalogueController {
 
     private final ProductCatalogueService catalogueService;
-
-    @Autowired
-    public ProductCatalogueController(ProductCatalogueService service) {
-        catalogueService = service;
-    }
 
     @GetMapping("/viewAll")
     public ResponseEntity<List<ProductCatalogueResponseDto>> getAllProductsAvailable(){

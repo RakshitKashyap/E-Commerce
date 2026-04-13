@@ -1,0 +1,33 @@
+services:
+  # 1. The Database Service
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: product-service
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+
+  # 2. Your Spring Boot Application
+  product-service:
+    build: .
+    container_name: product-service
+    ports:
+      - "9000:9000"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    environment:
+      # Use the service name 'mysql-db' instead of localhost
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/productservice?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      # Ensures Hibernate creates the tables based on your Entity classes
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"

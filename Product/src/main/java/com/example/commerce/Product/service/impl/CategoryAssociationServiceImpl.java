@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -57,6 +58,10 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
             associations.setAssociatedEntityId(requestDTO.getAssociatedEntityId());
             associations.setRelation(requestDTO.getRelations());
             associations.setStatus(true);
+            associations.setCreatedBy("user");
+            associations.setCreatedOn(LocalDateTime.now());
+            associations.setModifiedBy("user");
+            associations.setModifiedOn(LocalDateTime.now());
             categoryAssociations.add(associations);
         }
         categoryAssociations =  associationRepository.saveAll(categoryAssociations);
@@ -119,7 +124,7 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
         if(Objects.isNull(categoryId)){
             throw new CustomExceptions(CheckedExceptions.INVALID_CATEGORY);
         }
-        Category mainCategory = categoryService.fetchCategory(categoryId);
+        Category mainCategory = categoryService.fetchCategoryByCategoryId(categoryId);
 
         List<Category> responseList = new ArrayList<>();
         responseList.add(mainCategory);
@@ -136,8 +141,17 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
         return responseList;
     }
 
+    @Override
+    public void saveData(CategoryAssociations association) {
+        try{
+            associationRepository.save(association);
+        }catch (Exception e){
+            throw e;
+        }
+    }
+
     private List<Category> fetchAllCategoriesFromAssociationList(List<CategoryAssociations> associationsList) {
-        List<Category> categories =  associationsList.stream().map(association -> categoryService.fetchCategory(association.getAssociatedEntityId())).collect(Collectors.toList());
+        List<Category> categories =  associationsList.stream().map(association -> categoryService.fetchCategoryByCategoryId(association.getAssociatedEntityId())).collect(Collectors.toList());
         return CollectionUtils.isEmpty(categories)?null:categories;
     }
 

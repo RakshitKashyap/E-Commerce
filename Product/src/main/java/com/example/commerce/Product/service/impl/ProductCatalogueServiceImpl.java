@@ -5,48 +5,34 @@ import com.example.commerce.Product.model.DTO.Request.FilterRequestDto;
 import com.example.commerce.Product.model.DTO.Request.ProductCatalogueRequestDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
 import com.example.commerce.Product.model.DTO.Response.ProductCatalogueResponseDto;
-import com.example.commerce.Product.model.entity.Brand;
-import com.example.commerce.Product.model.entity.Category;
-import com.example.commerce.Product.model.entity.CategoryAssociations;
-import com.example.commerce.Product.model.entity.ProductCatalogue;
+import com.example.commerce.Product.model.DTO.Response.ProductSpecResponseDto;
+import com.example.commerce.Product.model.DTO.mini.BrandMiniResponseDto;
+import com.example.commerce.Product.model.entity.*;
 import com.example.commerce.Product.repository.ProductCatalogueRepository;
 import com.example.commerce.Product.repository.ProductSpecsRepository;
-import com.example.commerce.Product.service.BrandService;
-import com.example.commerce.Product.service.CategoryAssociationService;
-import com.example.commerce.Product.service.CategoryService;
-import com.example.commerce.Product.service.ProductCatalogueService;
+import com.example.commerce.Product.service.*;
 import com.example.commerce.Product.utils.enums.CategoryRelations;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ProductCatalogueServiceImpl implements ProductCatalogueService {
 
     private final ProductCatalogueRepository catalogueRepository;
-
-    private final ProductSpecsRepository productSpecsRepository;
-
+    private final ProductSpecService productSpecService;
     private final CategoryAssociationService associationService;
-
     private final BrandService brandService;
-
     private final CategoryService categoryService;
-
-    public ProductCatalogueServiceImpl(ProductCatalogueRepository catalogueRepository, ProductSpecsRepository productSpecsRepository, CategoryAssociationService associationService, BrandService brandService, CategoryService categoryService) {
-        this.catalogueRepository = catalogueRepository;
-        this.productSpecsRepository = productSpecsRepository;
-        this.associationService = associationService;
-        this.brandService = brandService;
-        this.categoryService = categoryService;
-    }
-
     @Override
     public List<ProductCatalogueResponseDto> getAllAvailableProducts() {
         List<ProductCatalogue> productCatalogues = catalogueRepository.findAll().stream().filter(product->product.isStatus()).collect(Collectors.toList());
@@ -54,11 +40,7 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
             throw new CustomExceptions(CheckedExceptions.NO_CONTENT_AVAILABLE);
         }
 
-        return productCatalogues.stream().map(productCatalogue -> {
-            ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
-            BeanUtils.copyProperties(productCatalogue,responseDto);
-            return responseDto;
-        }).collect(Collectors.toList());
+        return productCatalogues.stream().map(productCatalogue -> transformToResponseDto(productCatalogue)).collect(Collectors.toList());
     }
 
     @Override
@@ -70,21 +52,15 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         }
         List<ProductCatalogue> productCatalogueList = catalogueRepository.findByAssociatedBrand(brand);
 
-        return productCatalogueList.stream().map(productCatalogue -> {
-            ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
-            BeanUtils.copyProperties(productCatalogue,responseDto);
-            return responseDto;
-        }).collect(Collectors.toList());
+        return productCatalogueList.stream().map(productCatalogue -> transformToResponseDto(productCatalogue)).collect(Collectors.toList());
     }
 
     @Override
     public List<ProductCatalogueResponseDto> getAllProductsByCategory(String categoryId) {
         CategoryResponseDto categoryResponseDto = categoryService.viewCategoryById(Long.parseLong(categoryId));
-
         if(Objects.isNull(categoryResponseDto)){
             throw new CustomExceptions(CheckedExceptions.INVALID_CATEGORY);
         }
-
         List<String> categories = new ArrayList<>();
         categories.add(categoryId);
         // show all product in that category, and it's respective sub-categories and sibling categories
@@ -94,11 +70,7 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
                 .filter(productCatalogue ->  productList.contains(productCatalogue.getProductId()))
                 .collect(Collectors.toList());
 
-        return productCatalogueList.stream().map(productCatalogue -> {
-            ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
-            BeanUtils.copyProperties(productCatalogue,responseDto);
-            return responseDto;
-        }).collect(Collectors.toList());
+        return productCatalogueList.stream().map(productCatalogue -> transformToResponseDto(productCatalogue)).collect(Collectors.toList());
 
     }
 
@@ -125,11 +97,7 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
                     && (productCatalogue.getSellingPrice() >= requestDto.getMinimumPriceRange() ||
                         productCatalogue.getSellingPrice() <= requestDto.getMaximumPriceRange()))
         .map(
-            productCatalogue -> {
-              ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
-              BeanUtils.copyProperties(productCatalogue, responseDto);
-              return responseDto;
-            })
+            productCatalogue -> transformToResponseDto(productCatalogue))
         .collect(Collectors.toList());
     }
 
@@ -145,11 +113,7 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
     public List<ProductCatalogueResponseDto> getAllProductsBestDeals() {
         //  Defining best deals as Product with 70%+ discount
         return catalogueRepository.findAll().stream().filter(product -> (product.getDiscount()>=70.00)).map(
-                        productCatalogue -> {
-                            ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
-                            BeanUtils.copyProperties(productCatalogue, responseDto);
-                            return responseDto;
-                        })
+                        productCatalogue -> transformToResponseDto(productCatalogue))
                 .collect(Collectors.toList());
     }
 
@@ -169,17 +133,83 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         catalogue.setProductStatus(requestDto.getProductStatus());
 
         if(Objects.nonNull(requestDto.getAssociatedBrand())){
-            catalogue.setAssociatedBrand(requestDto.getAssociatedBrand());
+
+            Brand brand = brandService.getBrandById(requestDto.getAssociatedBrand());
+            catalogue.setAssociatedBrand(Objects.isNull(brand)?null:brand);
         }
-        catalogue.setSpecsList(requestDto.getSpecsList());
-        catalogue.setDiscount(requestDto.getDiscount());
+        List<ProductSpecs> specsList = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(requestDto.getSpecsList())){
+            requestDto.getSpecsList().forEach(spec -> {
+                ProductSpecs ps = new ProductSpecs();
+                ps.setFeature(spec.feature());
+                ps.setValue(spec.value());
+                ps.setStatus(spec.status());
+                ps.setCreatedBy("user");
+                ps.setCreatedOn(LocalDateTime.now());
+                ps.setModifiedBy("user");
+                ps.setModifiedOn(LocalDateTime.now());
+                specsList.add(ps);
+            });
+        }
+        catalogue.setSpecsList(specsList);
+        catalogue.setDiscount(calculateDiscount(requestDto.getMaximumRetailPrice(), requestDto.getSellingPrice()));
         catalogue.setMaximumRetailPrice(requestDto.getMaximumRetailPrice());
         catalogue.setSellingPrice(requestDto.getSellingPrice());
+        catalogue.setStatus(Boolean.TRUE);
+        catalogue.setCreatedBy("user");
+        catalogue.setCreatedOn(LocalDateTime.now());
+        catalogue.setModifiedBy("user");
+        catalogue.setModifiedOn(LocalDateTime.now());
         catalogue = catalogueRepository.save(catalogue);
-        ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
-        BeanUtils.copyProperties(catalogue, responseDto);
+        // map to category
+        CategoryAssociations association = new CategoryAssociations();
+        association.setMainCategory(requestDto.getCategoryId());
+        association.setAssociatedEntityId(catalogue.getProductId());
+        association.setAssociationUUID(UUID.randomUUID().toString());
+        association.setRelation(CategoryRelations.PRODUCT);
+        association.setStatus(Boolean.TRUE);
+        association.setCreatedBy("user");
+        association.setCreatedOn(LocalDateTime.now());
+        association.setModifiedBy("user");
+        association.setModifiedOn(LocalDateTime.now());
+        associationService.saveData(association);
+        return transformToResponseDto(catalogue);
+    }
+
+    private ProductCatalogueResponseDto transformToResponseDto(ProductCatalogue catalogue) {
+        BrandMiniResponseDto brandMiniResponseDto= (catalogue.getAssociatedBrand() == null)
+                ?null
+                :new BrandMiniResponseDto(catalogue.getAssociatedBrand().getBrandName(), catalogue.getAssociatedBrand().getBrandDescription());
+
+        List<ProductSpecResponseDto> specList = Optional.ofNullable(catalogue.getSpecsList())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(spec -> new ProductSpecResponseDto(spec.getFeature(), spec.getValue()))
+                .toList();
+
+        ProductCatalogueResponseDto responseDto =
+            ProductCatalogueResponseDto.builder()
+                .productId(catalogue.getProductId())
+                .productName(catalogue.getProductName())
+                .productDescription(catalogue.getProductDescription())
+                    .productColor(catalogue.getProductColor())
+                .productStatus(catalogue.getProductStatus())
+                .associatedBrand(brandMiniResponseDto)
+                .specsList(specList)
+                .maximumRetailPrice(catalogue.getMaximumRetailPrice())
+                .sellingPrice(catalogue.getSellingPrice())
+                .discount(catalogue.getDiscount())
+                .createdBy(catalogue.getCreatedBy())
+                .modifiedBy(catalogue.getModifiedBy())
+                .createdOn(catalogue.getCreatedOn())
+                .modifiedOn(catalogue.getModifiedOn())
+                .build();
 
         return responseDto;
+    }
+
+    private float calculateDiscount(float maximumRetailPrice, float sellingPrice) {
+        return ((maximumRetailPrice-sellingPrice)/maximumRetailPrice)*100;
     }
 
     @Override
@@ -192,18 +222,45 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         catalogue.setProductName(requestDto.getProductName());
         catalogue.setProductDescription(requestDto.getProductDescription());
         catalogue.setProductColor(requestDto.getProductColor());
-        catalogue.setAssociatedBrand(requestDto.getAssociatedBrand());
+        if(!catalogue.getAssociatedBrand().getId().equals(Long.parseLong(requestDto.getAssociatedBrand()))){
+            if(Objects.nonNull(requestDto.getAssociatedBrand())){
+                Brand brand = brandService.getBrandById(requestDto.getAssociatedBrand());
+                catalogue.setAssociatedBrand(Objects.isNull(brand)?null:brand);
+            }
+        }
         catalogue.setProductStatus(requestDto.getProductStatus());
         catalogue.setMaximumRetailPrice(requestDto.getMaximumRetailPrice());
-        catalogue.setDiscount(requestDto.getDiscount());
-        catalogue.setSpecsList(requestDto.getSpecsList());
+        catalogue.setDiscount(calculateDiscount(requestDto.getMaximumRetailPrice(), requestDto.getSellingPrice()));
+
+        List<ProductSpecs> specsList = new ArrayList<>();
+        Set<String> existingSpecs = catalogue.getSpecsList().stream()
+                .map(ProductSpecs::getFeature)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        if(!CollectionUtils.isEmpty(requestDto.getSpecsList())){
+            requestDto.getSpecsList().forEach(spec -> {
+                if(!existingSpecs.contains(spec.feature())){
+                    ProductSpecs ps = new ProductSpecs();
+                    ps.setFeature(spec.feature());
+                    ps.setValue(spec.value());
+                    ps.setStatus(spec.status());
+                    ps.setCreatedBy("user");
+                    ps.setCreatedOn(LocalDateTime.now());
+                    ps.setModifiedBy("user");
+                    ps.setModifiedOn(LocalDateTime.now());
+                    specsList.add(ps);
+                }else{
+                    // todo
+                }
+
+            });
+        }
+        catalogue.setSpecsList(specsList);
 
         catalogue = catalogueRepository.save(catalogue);
 
-        ProductCatalogueResponseDto responseDto = new ProductCatalogueResponseDto();
-        BeanUtils.copyProperties(catalogue, responseDto);
-
-        return responseDto;
+        return transformToResponseDto(catalogue);
     }
 
     @Override
@@ -214,6 +271,8 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         }
         ProductCatalogue catalogue = optionalProductCatalogue.get();
         catalogue.setStatus(false);
+        catalogue.setModifiedBy("user");
+        catalogue.setModifiedOn(LocalDateTime.now());
         catalogue = catalogueRepository.save(catalogue);
         return true;
     }

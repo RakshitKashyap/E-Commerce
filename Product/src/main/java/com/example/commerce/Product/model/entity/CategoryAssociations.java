@@ -6,7 +6,7 @@ import lombok.*;
 
 @Data
 @Entity
-public class CategoryAssociations  extends Basic {
+public class CategoryAssociations  extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

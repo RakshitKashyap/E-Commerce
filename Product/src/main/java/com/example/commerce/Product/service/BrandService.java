@@ -13,13 +13,13 @@ public interface BrandService {
 
     List<BrandResponseDto> getByCategoryAssociation(String categoryId);
 
-    List<BrandResponseDto> getBestDeals(int i);
+    List<BrandResponseDto> getBestDeals(String discount);
 
     BrandResponseDto addNewBrand(BrandRequestDto requestDto);
 
-    BrandResponseDto updateBrand(String brandId, BrandRequestDto requestDto);
+    BrandResponseDto updateBrand(Long brandId, BrandRequestDto requestDto);
 
-    boolean removeBrand(String brandId);
+    boolean removeBrand(Long brandId);
 
     Brand getBrandById(String brandId);
 }

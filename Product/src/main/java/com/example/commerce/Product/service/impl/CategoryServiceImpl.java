@@ -69,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
         category.setModifiedOn(LocalDateTime.now());
         category.setModifiedBy("user");
         category.setStatus(true);
-
+        log.info("saving entity >> "+category.toString());
         category = categoryRepository.save(category);
         return convertToResponse(category);
     }
@@ -86,7 +86,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category fetchCategory(Long categoryId) {
+    public Category fetchCategoryByCategoryId(Long categoryId) {
         return categoryRepository.findById(categoryId).get();
     }
 

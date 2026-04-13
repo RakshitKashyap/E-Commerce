@@ -1,11 +1,13 @@
 package com.example.commerce.Product.model.entity;
 
+import jakarta.persistence.MappedSuperclass;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Data
-public class Basic {
+@MappedSuperclass
+public class Audit {
 
     private LocalDateTime createdOn;
 

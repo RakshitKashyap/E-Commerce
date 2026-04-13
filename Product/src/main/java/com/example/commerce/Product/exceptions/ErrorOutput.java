@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 public class ErrorOutput {
-
     private int statusCode;
     private String message;
     private LocalDateTime timeStamp;
-
 }

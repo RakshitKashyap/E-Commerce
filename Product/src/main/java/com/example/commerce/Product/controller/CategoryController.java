@@ -1,7 +1,6 @@
 package com.example.commerce.Product.controller;
 
 import com.example.commerce.Product.exceptions.CustomExceptions;
-import com.example.commerce.Product.exceptions.GlobalExceptionHandler;
 import com.example.commerce.Product.model.DTO.Request.AddAssociateRequestDTO;
 import com.example.commerce.Product.model.DTO.Request.CategoryRequestDto;
 import com.example.commerce.Product.model.DTO.Response.AssociateResponseDto;
@@ -10,6 +9,8 @@ import com.example.commerce.Product.model.entity.Brand;
 import com.example.commerce.Product.service.CategoryAssociationService;
 import com.example.commerce.Product.service.CategoryService;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
+import java.util.List;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,9 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/v1/category")
@@ -60,7 +58,7 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addNewCategory(@Validated@RequestBody CategoryRequestDto requestDto){
+    public ResponseEntity addNewCategory(@RequestBody CategoryRequestDto requestDto){
         if(Objects.isNull(requestDto)){
             throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
         }
