@@ -1,32 +1,22 @@
 package com.example.Order_Service.Order.controller;
 
-import com.example.Order_Service.Order.service.OrderItemService;
-import com.example.Order_Service.Order.service.OrderService;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@RequestMapping("/{orderId}")
-public interface OrderedItemsController extends OrderController{
+@RequestMapping(BaseController.V1+"/items")
+public interface OrderedItemsController{
 
-    @PostMapping("/items/create")
-    public abstract ResponseEntity addItemsToOrder(@PathVariable(name = "orderId")String orderId);
+    @PostMapping("/create")
+    public abstract ResponseEntity addItemsToCart(@RequestBody Object requestDto, @RequestParam(name = "orderId", required = false)String orderId);
 
-    @GetMapping("/items")
-    public abstract ResponseEntity getAllItemsOfOrder(@PathVariable(name = "orderId")String orderId);
+    @GetMapping("/")
+    public abstract ResponseEntity getAllItemsOfCart(@RequestParam(name = "orderId", required = true)String orderId);
 
-    @GetMapping("/items/{itemId}")
-    public abstract ResponseEntity getSpecificItemOfOrder( @PathVariable(name = "orderId")String orderId , @PathVariable(name = "itemId")String itemId);
+    @PutMapping("/{itemId}")
+    public abstract ResponseEntity updateSpecificItemOfCart(@RequestParam(name = "orderId", required = true)String orderId, @PathVariable(name = "itemId")String itemId, @RequestBody Object requestBody);
 
-    @PutMapping("/items/{itemId}")
-    public abstract ResponseEntity updateSpecificItemOfOrder(@PathVariable(name = "orderId")String orderId, @PathVariable(name = "itemId")String itemId);
-
-    @DeleteMapping("/items/{itemId}")
-    public abstract ResponseEntity deleteSpecificItemOfOrder(@PathVariable(name = "orderId")String orderId, @PathVariable(name = "itemId")String itemId);
+    @DeleteMapping("/{itemId}")
+    public abstract ResponseEntity deleteSpecificItemOfCart(@RequestParam(name = "orderId", required = true)String orderId, @PathVariable(name = "itemId")String itemId);
 
 }

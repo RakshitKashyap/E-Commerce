@@ -1,67 +1,42 @@
 package com.example.Order_Service.Order.controller;
 
-import com.example.Order_Service.Order.models.entity.Order;
+import com.example.Order_Service.Order.models.Dto.ResponseDto.ResponseData;
+import com.example.Order_Service.Order.service.OrderItemService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController()
 @Slf4j
+@RequiredArgsConstructor
 public class OrderedItemsImplController implements OrderedItemsController{
 
-    @Override
-    public ResponseEntity addItemsToOrder(String orderId) {
-        return new ResponseEntity(null, HttpStatusCode.valueOf(200));
-    }
+    private final OrderItemService itemService;
+
 
     @Override
-    public ResponseEntity getAllItemsOfOrder(String orderId) {
-        return new ResponseEntity(null, HttpStatusCode.valueOf(200));
-    }
-
-    @Override
-    public ResponseEntity getSpecificItemOfOrder(String orderId, String itemId) {
-        return new ResponseEntity(null, HttpStatusCode.valueOf(200));
-    }
-
-    @Override
-    public ResponseEntity updateSpecificItemOfOrder(String orderId, String itemId) {
-        return new ResponseEntity(null, HttpStatusCode.valueOf(200));
-    }
-
-    @Override
-    public ResponseEntity deleteSpecificItemOfOrder(String orderId, String itemId) {
-        return new ResponseEntity(null, HttpStatusCode.valueOf(200));
-    }
-
-    @Override
-    public ResponseEntity getAllOrders() {
+    public ResponseEntity addItemsToCart(Object requestDto, String orderId) {
+        log.info("Controller", "Initiating endpoint to create new Order");
         return null;
     }
 
     @Override
-    public ResponseEntity getOrderByOrderId(String orderId) {
+    public ResponseEntity getAllItemsOfCart(String orderId) {
+        log.info("Controller", "Initiating endpoint to create new Order");
         return null;
     }
 
     @Override
-    public ResponseEntity getOrderByStatus(int orderStatusId) {
+    public ResponseEntity updateSpecificItemOfCart(String orderId, String itemId, Object requestBody) {
+        log.info("Controller", "Initiating endpoint to create new Order");
         return null;
     }
 
     @Override
-    public ResponseEntity createNewOrder(Order order) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity updateOrders(String orderId, Order order) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity deleteOrder(String orderId) {
+    public ResponseEntity deleteSpecificItemOfCart(String orderId, String itemId) {
+        log.info("Controller", "Initiating endpoint to create new Order");
         return null;
     }
 }

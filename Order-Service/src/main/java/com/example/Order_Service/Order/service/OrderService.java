@@ -1,20 +1,22 @@
 package com.example.Order_Service.Order.service;
 
-import com.example.Order_Service.Order.models.entity.Order;
-import org.springframework.transaction.annotation.Transactional;
+import com.example.Order_Service.Order.models.Dto.ResponseDto.ResponseData;
+import com.example.Order_Service.Order.models.entity.Orders;
 
 import java.util.List;
 
 public interface OrderService {
-    List<Order> getAllOrders();
+    ResponseData getAllOrders();
 
-    Order findOrderByOrderId(String orderId);
+    ResponseData findOrderByOrderId(String orderId);
 
-    List<Order> findOrderByStatusId(int orderStatusId);
+    ResponseData findOrderByStatusId(int orderStatusId);
 
-    Order createNewOrder(Order order);
+    ResponseData createNewOrder(Object orders);
 
-    Order updateOrder(String orderId, Order order);
+    ResponseData updateOrder(String orderId, Orders orders);
 
-    boolean deleteOrder(String orderId);
+    ResponseData deleteOrder(String orderId);
+
+    Orders saveOrderDetail(Orders orders);
 }

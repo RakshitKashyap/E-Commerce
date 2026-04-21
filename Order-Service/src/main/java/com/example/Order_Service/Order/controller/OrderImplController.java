@@ -1,17 +1,10 @@
 package com.example.Order_Service.Order.controller;
 
-import com.example.Order_Service.Order.models.entity.Order;
+import com.example.Order_Service.Order.models.Dto.ResponseDto.ResponseData;
 import com.example.Order_Service.Order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.logging.Logger;
 
 @Slf4j
 @RestController
@@ -20,49 +13,40 @@ public class OrderImplController implements OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/")
-    public ResponseEntity getAllOrders(){
-        log.info("initiating endpoint to get all Orders:");
-        List<Order> orderList = orderService.getAllOrders();
-        return new ResponseEntity(orderList, HttpStatusCode.valueOf(200));
+    @Override
+    public ResponseData getAllOrders() {
+        log.info("Controller", "Initiating endpoint to create new Order");
+        return null;
     }
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity getOrderByOrderId(@PathVariable(name = "orderId")String orderId) {
-        log.info("initiating endpoint to get Order by OrderId :{}", orderId);
-        Order order = orderService.findOrderByOrderId(orderId);
-        return new ResponseEntity(order, HttpStatusCode.valueOf(200));
+    @Override
+    public ResponseData getOrderByOrderId(String orderId) {
+        log.info("Controller", "Initiating endpoint to create new Order");
+        return null;
     }
 
-    @GetMapping("/status/{status")
-    public ResponseEntity getOrderByStatus(@PathVariable(name="status")int orderStatusId){
-        log.info("initiating endpoint to get Order by statusID :{}", orderStatusId);
-        if(Objects.isNull(orderStatusId)){
-            return null;
-        }
-        List<Order> orderList = orderService.findOrderByStatusId(orderStatusId);
-        return new ResponseEntity(orderList, HttpStatusCode.valueOf(200));
+    @Override
+    public ResponseData getOrderByStatus(String orderStatus) {
+        log.info("Controller", "Initiating endpoint to create new Order");
+        return null;
     }
 
-    @PostMapping("/new")
-    public ResponseEntity createNewOrder(@Validated @RequestBody Order order){
-        log.info("initiating endpoint to create new Order");
-        Order orderResponse = orderService.createNewOrder(order);
-        return new ResponseEntity(orderResponse, HttpStatusCode.valueOf(201));
+    @Override
+    public ResponseData createNewOrder(Object order) {
+        log.info("Controller", "Initiating endpoint to create new Order");
+//        ResponseData result = orderService.createNewOrder(order);
+        return null;
     }
 
-    @PutMapping("/update/{orderId}")
-    public ResponseEntity updateOrders(@PathVariable(name = "orderId")String orderId, @RequestBody Order order){
-        log.info("initiating endpoint to update Order by OrderId :{}", orderId);
-        Order orderResponse = orderService.updateOrder(orderId, order);
-        return new ResponseEntity(orderResponse, HttpStatusCode.valueOf(200));
+    @Override
+    public ResponseData updateOrders(String orderId, Object order) {
+        log.info("Controller", "Initiating endpoint to create new Order");
+        return null;
     }
 
-    @DeleteMapping("/delete/{orderId}")
-    public ResponseEntity deleteOrder(@PathVariable(name = "orderId")String orderId){
-        log.info("initiating endpoint to delete Order by OrderId :{}", orderId);
-        boolean response =  orderService.deleteOrder(orderId);
-        return new ResponseEntity(response, HttpStatusCode.valueOf(200));
+    @Override
+    public ResponseData deleteOrder(String orderId) {
+        log.info("Controller", "Initiating endpoint to create new Order");
+        return null;
     }
-
 }

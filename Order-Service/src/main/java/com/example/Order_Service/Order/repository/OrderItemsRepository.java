@@ -2,5 +2,9 @@ package com.example.Order_Service.Order.repository;
 
 import com.example.Order_Service.Order.models.entity.OrderItems;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface OrderItemsRepository extends JpaRepository<OrderItems, Long> {}
+@Repository
+public interface OrderItemsRepository extends JpaRepository<OrderItems, Long> {
+    OrderItems findByIdAndStatus(long parseLong, Boolean aTrue);
+}
