@@ -1,0 +1,19 @@
+package com.example.commerce.Product.utils.enums;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public enum CheckedExceptions {
+
+    PRODUCT_NOT_EXIST(404, "Product not Exist"),
+    PRODUCT_NOT_AVAILABLE(404, "Product not Available"),
+    NO_CONTENT_AVAILABLE(204, "NO Content Available"),
+    INVALID_INPUT(500, "Invalid Input"),
+    INVALID_CATEGORY(400, "Invalid Category"),
+    INVALID_BRAND(400, "Invalid Brand");
+
+    private int errorCode;
+    private String message;
+}

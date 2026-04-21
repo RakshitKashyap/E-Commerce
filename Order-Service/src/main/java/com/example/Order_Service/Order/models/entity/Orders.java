@@ -2,26 +2,21 @@ package com.example.Order_Service.Order.models.entity;
 
 import com.example.Order_Service.Order.utility.Enum.OrderStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Table
-public class Order {
+@Table(name="orders")
+public class Orders extends Audit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long userId;
+    private String orderedBy;
 
     private String orderUUID;
 
@@ -29,9 +24,12 @@ public class Order {
 
     private Double totalAmount;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private List<OrderItems> orderItems;
+
+    @Enumerated(value = EnumType.STRING)
     private OrderStatus orderStatus;
 
     private Long paymentId;
-
-    private boolean status;
 }
