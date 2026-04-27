@@ -1,6 +1,6 @@
-package com.example.commerce.Product.exceptions;
+package com.example.userService.userService.exceptions;
 
-import com.example.commerce.Product.utils.enums.CheckedExceptions;
+import com.example.userService.userService.utils.CheckedExceptions;
 
 public class CustomExceptions  extends RuntimeException{
     private final CheckedExceptions checkedExceptions;

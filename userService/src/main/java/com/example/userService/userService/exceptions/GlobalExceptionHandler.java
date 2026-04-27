@@ -1,12 +1,10 @@
-package com.example.commerce.Product.exceptions;
+package com.example.userService.userService.exceptions;
 
-import com.example.commerce.Product.utils.enums.CheckedExceptions;
+import java.time.LocalDateTime;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,7 +16,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorOutput> handleAnyException(Exception ex) {
-        ErrorOutput response = new ErrorOutput(500, "An unexpected error occurred", LocalDateTime.now());
+        ErrorOutput response = new ErrorOutput(500, ex.getMessage(), LocalDateTime.now());
         return ResponseEntity.internalServerError().body(response);
     }
 }
