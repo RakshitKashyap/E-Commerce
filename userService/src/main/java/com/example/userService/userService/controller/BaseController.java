@@ -1,4 +1,4 @@
-package com.example.Order_Service.Order.controller;
+package com.example.userService.userService.controller;
 
 public interface BaseController {
     String V1 = "/api/v1";

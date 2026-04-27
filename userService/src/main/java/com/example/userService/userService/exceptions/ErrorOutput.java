@@ -1,9 +1,8 @@
-package com.example.commerce.Product.exceptions;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+package com.example.userService.userService.exceptions;
 
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
