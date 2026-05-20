@@ -29,13 +29,13 @@ public class UserImplController implements UserController{
 
     @Override
     public ResponseData loginUser(AuthenticationRequestDto requestDto) {
-        log.info("initiating endpoint to register New User");
+        log.info("initiating endpoint to login User");
         return new ResponseData(200, authenticationService.login(requestDto));
     }
 
     @Override
-    public ResponseData forgetPassword(Object request) {
-        log.info("initiating endpoint to register New User");
-        return new ResponseData(200, userService.resetPassword(request));
+    public ResponseData forgetPassword(String emailId) {
+        log.info("initiating endpoint to set new password");
+        return new ResponseData(200, userService.resetPassword(emailId));
     }
 }

@@ -111,7 +111,7 @@ public class ProductCatalogueController {
         if(Objects.isNull(productId) || productId.trim().isEmpty()){
             throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
         }
-        catalogueService.removeProductCatalogue(productId);
-        return new ResponseEntity(null, HttpStatus.OK);
+
+        return new ResponseEntity((catalogueService.removeProductCatalogue(productId))?"Deletion Successfull":"There's Some issue deleting", HttpStatus.OK);
     }
 }

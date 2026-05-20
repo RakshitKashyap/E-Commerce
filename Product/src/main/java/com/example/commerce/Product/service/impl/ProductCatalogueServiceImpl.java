@@ -63,11 +63,15 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         }
         List<String> categories = new ArrayList<>();
         categories.add(categoryId);
-        // show all product in that category, and it's respective sub-categories and sibling categories
-        List<Category> subCategories = associationService.fetchAllRelatedCategories(categoryResponseDto.getId());
-        List<Long> productList = associationService.findProductsByRelationAndMainCategory(CategoryRelations.PRODUCT, categoryId);
+        List<Long> productList = associationService.fetchAllByRelationAndCategories(CategoryRelations.PRODUCT, List.of(categoryId)).stream()
+                .map(associate->associate.getAssociatedEntityId()).collect(Collectors.toList());
+        if(CollectionUtils.isEmpty(productList)){
+            List<Category> subCategories = associationService.fetchAllRelatedCategories(categoryResponseDto.getId());
+            productList = subCategories.stream().map(category -> category.getCategoryId()).collect(Collectors.toList());
+        }
+        List<Long> finalProductList = productList;
         List<ProductCatalogue> productCatalogueList = catalogueRepository.findAll().stream()
-                .filter(productCatalogue ->  productList.contains(productCatalogue.getProductId()))
+                .filter(productCatalogue ->  finalProductList.contains(productCatalogue.getProductId()))
                 .collect(Collectors.toList());
 
         return productCatalogueList.stream().map(productCatalogue -> transformToResponseDto(productCatalogue)).collect(Collectors.toList());
@@ -112,8 +116,9 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
     @Override
     public List<ProductCatalogueResponseDto> getAllProductsBestDeals() {
         //  Defining best deals as Product with 70%+ discount
-        return catalogueRepository.findAll().stream().filter(product -> (product.getDiscount()>=70.00)).map(
-                        productCatalogue -> transformToResponseDto(productCatalogue))
+        return catalogueRepository.findAll().stream().filter(product -> (product.getDiscount()>=30.00))
+                .filter(catlogue->catlogue.isStatus())
+                .map(productCatalogue -> transformToResponseDto(productCatalogue))
                 .collect(Collectors.toList());
     }
 
@@ -270,6 +275,9 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
             return false;
         }
         ProductCatalogue catalogue = optionalProductCatalogue.get();
+        if(!catalogue.isStatus()){
+            throw new CustomExceptions(CheckedExceptions.PRODUCT_NOT_AVAILABLE);
+        }
         catalogue.setStatus(false);
         catalogue.setModifiedBy("user");
         catalogue.setModifiedOn(LocalDateTime.now());

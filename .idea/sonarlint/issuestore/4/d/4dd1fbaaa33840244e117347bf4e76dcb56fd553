@@ -1,0 +1,35 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÜŠ€óşÿÿÿÿ
+M
+java:S25895"8Remove this expression which always evaluates to "false"(•äÖ
+h
+java:S62044"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(Ö‹§Â
+]
+java:S16124"GReplace this lambda with method reference 'ProductCatalogue::isStatus'.(Ö‹§Â
+h
+java:S6204="RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(œçÖß
+h
+java:S6204M"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(œçÖß
+h
+java:S6204^"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹
+h
+java:S6204d"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(œçÖß
+i
+java:S6204…"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹
+Q
+java:S2175v"6A "List<CategoryResponseDto>" cannot contain a "List".(ß¿Ïøÿÿÿÿ
+i
+java:S6204"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹
+N
+java:S2175Œ"7A "List<CategoryAssociations>" cannot contain a "Long".(·ÜÑÒ
+i
+java:S6204™"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ª™¨¹
+T
+java:S1854Ù"=Remove this useless assignment to local variable "catalogue".(Ù¡¤ü
+a
+java:S1128	"LRemove this unused import 'com.example.commerce.Product.model.entity.Brand'.(¯ÜŸ>
+e
+java:S1128
+"ORemove this unused import 'com.example.commerce.Product.model.entity.Category'.(ü£šÙ
+P
+java:S1068"":Remove this unused "productSpecsRepository" private field.(É´Ÿğ

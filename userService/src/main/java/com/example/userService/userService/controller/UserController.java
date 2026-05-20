@@ -17,6 +17,6 @@ public interface UserController {
     ResponseData loginUser(@RequestBody AuthenticationRequestDto requestDto);
 
     @PostMapping("/forget-password")
-    ResponseData forgetPassword(@RequestBody Object request);
+    ResponseData forgetPassword(@RequestBody String emailId);
 
 }

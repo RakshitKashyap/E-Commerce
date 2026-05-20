@@ -14,9 +14,9 @@ public interface CategoryAssociationService {
 
     AssociateResponseDto addCategoryAssociationToBrands(String categoryId, List<Brand> brands);
 
-    List<Long> findProductsByRelationAndMainCategory(CategoryRelations product, String categoryId);
-
     List<Category> fetchAllRelatedCategories(Long categoryId);
 
     void saveData(CategoryAssociations association);
+
+    List<CategoryAssociations> fetchAllByRelationAndCategories(CategoryRelations product, List<String> categoryId);
 }
