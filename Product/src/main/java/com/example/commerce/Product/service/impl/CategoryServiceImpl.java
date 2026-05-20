@@ -7,6 +7,7 @@ import com.example.commerce.Product.model.entity.Category;
 import com.example.commerce.Product.model.entity.CategoryAssociations;
 import com.example.commerce.Product.repository.CategoryAssociationRepository;
 import com.example.commerce.Product.repository.CategoryRepository;
+import com.example.commerce.Product.service.CategoryAssociationService;
 import com.example.commerce.Product.service.CategoryService;
 import com.example.commerce.Product.utils.enums.CategoryRelations;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
@@ -28,12 +29,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    private CategoryAssociationRepository associationRepository;
-
     @Override
     public List<CategoryResponseDto> viewAllCategories() {
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAll().stream().filter(cat->cat.isStatus()).collect(Collectors.toList());
         if(categories.isEmpty() || Objects.isNull(categories)){
             log.info("No categories available at the moment");
             throw new CustomExceptions(CheckedExceptions.NO_CONTENT_AVAILABLE);
@@ -77,11 +75,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryAssociations> getAssociationByEntityAndRelation(Long productId, CategoryRelations relation) {
 
-        List<CategoryAssociations> associations = associationRepository.findByRelationAndMainCategoryAndStatusTrue(relation, productId);
-
-        if(associations.isEmpty() || Objects.isNull(associations)){
-            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
-        }
         return null;
     }
 

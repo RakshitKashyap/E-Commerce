@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    # FIX: Removed the bugged "command:" string entirely.
+    # Natively mount the initialization SQL folder instead.
+    volumes:
+      - ./sqlinits:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - micro-network
+
+  user-service:
+    build:
+      context: ./userService
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/userservice?allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - micro-network
+
+  order-service:
+    build:
+      context: ./Order-Service
+      dockerfile: Dockerfile
+    container_name: order-service
+    ports:
+      - "9001:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/orderservice?allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - micro-network
+
+  product-service:
+    build:
+      context: ./Product
+      dockerfile: Dockerfile
+    container_name: product-service
+    ports:
+      - "9000:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/productservice?allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - micro-network
+
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - user-service
+      - order-service
+      - product-service
+    networks:
+      - micro-network
+
+  grafana:
+    image: grafana/grafana:10.0.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    networks:
+      - micro-network
+
+networks:
+  micro-network:
+    driver: bridge

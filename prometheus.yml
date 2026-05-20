@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 5s # How frequently to pull metrics from your apps (5s is great for local testing)
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: 'user-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['user-service:8080'] # Uses Docker's internal DNS name and port
+
+  - job_name: 'order-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['order-service:8080']
+
+  - job_name: 'product-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['product-service:8080']

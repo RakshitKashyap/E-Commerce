@@ -1,9 +1,6 @@
-package com.example.Order_Service.Order.models.Dto.ResponseDto;
+package com.example.userService.userService.models.dto.responseDto;
 
-import com.example.Order_Service.Order.models.entity.Orders;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class ResponseData {

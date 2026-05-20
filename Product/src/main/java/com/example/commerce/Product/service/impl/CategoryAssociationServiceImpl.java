@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,8 +35,10 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
 
     @Autowired
     private CategoryService categoryService;
+
     @Autowired
     private BrandService brandService;
+
     @Autowired
     private CategoryAssociationRepository associationRepository;
 
@@ -92,6 +95,10 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
             associations.setMainCategory(category.getId());
             associations.setRelation(CategoryRelations.BRAND);
             associations.setStatus(true);
+            associations.setCreatedBy("user");
+            associations.setCreatedOn(LocalDateTime.now());
+            associations.setModifiedBy("user");
+            associations.setModifiedOn(LocalDateTime.now());
             categoryAssociations.add(associations);
 
             AssociateEntitiesResponse response = new AssociateEntitiesResponse();
@@ -107,19 +114,6 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
     }
 
     @Override
-    public List<Long> findProductsByRelationAndMainCategory(CategoryRelations product, String categoryId) {
-
-        if(categoryId.trim().isEmpty()){
-            throw new CustomExceptions(CheckedExceptions.INVALID_INPUT);
-        }
-
-        return associationRepository
-        .findByRelationAndMainCategoryAndStatusTrue(product, Long.parseLong(categoryId))
-        .stream()
-        .mapToLong(entity -> entity.getAssociatedEntityId()).boxed().collect(Collectors.toList());
-
-    }
-    @Override
     public List<Category> fetchAllRelatedCategories(Long categoryId) {
         if(Objects.isNull(categoryId)){
             throw new CustomExceptions(CheckedExceptions.INVALID_CATEGORY);
@@ -129,8 +123,7 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
         List<Category> responseList = new ArrayList<>();
         responseList.add(mainCategory);
         // now fetch all child and siblings categories
-        List<CategoryAssociations> associationsList = associationRepository.findByRelationAndMainCategoryAndStatusTrue(CategoryRelations.CHILD_CATEGORY, mainCategory.getCategoryId());
-        associationsList.addAll(associationRepository.findByRelationAndMainCategoryAndStatusTrue(CategoryRelations.SIBLING_CATEGORY, mainCategory.getCategoryId()));
+        List<CategoryAssociations> associationsList = associationRepository.findByRelationInAndMainCategoryInAndStatusTrue(List.of(CategoryRelations.CHILD_CATEGORY, CategoryRelations.SIBLING_CATEGORY), List.of(mainCategory.getCategoryId()));
 
         log.info("Associated List size: "+ associationsList.size());
         List<Category> categories = fetchAllCategoriesFromAssociationList(associationsList);
@@ -148,6 +141,13 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
         }catch (Exception e){
             throw e;
         }
+    }
+
+    @Override
+    public List<CategoryAssociations> fetchAllByRelationAndCategories(CategoryRelations relation, List<String> categoryId) {
+        List<Long> categories = new ArrayList<>();
+        categoryId.forEach(n->categories.add(Long.parseLong(n)));
+        return associationRepository.findByRelationInAndMainCategoryInAndStatusTrue(List.of(relation), categories);
     }
 
     private List<Category> fetchAllCategoriesFromAssociationList(List<CategoryAssociations> associationsList) {
