@@ -5,6 +5,7 @@ import com.example.userService.userService.models.dto.requestDto.UserRegistratio
 import com.example.userService.userService.models.dto.responseDto.ResponseData;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping(BaseController.V1+"/user")
@@ -18,5 +19,8 @@ public interface UserController {
 
     @PostMapping("/forget-password")
     ResponseData forgetPassword(@RequestBody String emailId);
+
+    @PostMapping("/validate-user")
+    ResponseData validateUser(@RequestHeader(name = "Authorization") String token);
 
 }

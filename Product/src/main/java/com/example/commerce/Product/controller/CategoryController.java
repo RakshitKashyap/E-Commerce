@@ -1,5 +1,6 @@
 package com.example.commerce.Product.controller;
 
+import com.example.commerce.Product.config.UserAuthClient;
 import com.example.commerce.Product.exceptions.CustomExceptions;
 import com.example.commerce.Product.model.DTO.Request.AddAssociateRequestDTO;
 import com.example.commerce.Product.model.DTO.Request.CategoryRequestDto;
@@ -11,6 +12,8 @@ import com.example.commerce.Product.service.CategoryService;
 import com.example.commerce.Product.utils.enums.CheckedExceptions;
 import java.util.List;
 import java.util.Objects;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,19 +25,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/v1/category")
 @Slf4j
+@RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
-
+    private final UserAuthClient userAuthClient;
     private final CategoryAssociationService associationService;
 
-    @Autowired
-    public CategoryController(CategoryAssociationService _categoryAssociation, CategoryService _categoryService) {
-        this.associationService = _categoryAssociation;
-        this.categoryService = _categoryService;
-    }
-
     @GetMapping("/viewAll")
-    public ResponseEntity viewAllCategories(){
+    public ResponseEntity viewAllCategories(@RequestHeader(name = "Authorization") String token){
+        if (!userAuthClient.isValidUser(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Access Denied: Invalid or expired authorization token.");
+        }
         log.info("initiating api to view all categories..");
         List<CategoryResponseDto> responseDtoList = categoryService.viewAllCategories();
         if(responseDtoList.isEmpty() || Objects.isNull(responseDtoList)){
