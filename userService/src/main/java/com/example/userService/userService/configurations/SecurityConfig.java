@@ -33,9 +33,12 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/configuration/ui",
                                 "/configuration/security",
-                                "/actuator/**"
+                                "/actuator/**",
+                                "/api/v1/user/register",
+                                "/api/v1/user/login",
+                                "/api/v1/users/validate-user",
+                                "/api/v1/user/forget-password"
                         ).permitAll()
-                        .requestMatchers("/api/v1/user/register", "/api/v1/user/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

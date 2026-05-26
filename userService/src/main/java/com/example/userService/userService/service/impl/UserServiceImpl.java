@@ -2,6 +2,7 @@ package com.example.userService.userService.service.impl;
 
 import com.example.userService.userService.models.dto.requestDto.UserFilterRequestDto;
 import com.example.userService.userService.models.dto.requestDto.UserRegistrationRequestDto;
+import com.example.userService.userService.models.dto.responseDto.UserAuthDto;
 import com.example.userService.userService.models.dto.responseDto.UserResponseDto;
 import com.example.userService.userService.models.entity.User;
 import com.example.userService.userService.models.entity.UserProfile;
@@ -18,6 +19,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.random.RandomGenerator;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,7 +93,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object resetPassword(String request) {
+    public Object resetPassword(String requestEmail) {
+        User user = userRepository.findByEmailId(requestEmail);
+        if(ObjectUtils.isEmpty(user)){
+            return null;
+        }
+        Long randomPassword = new Random().nextLong();
+        user.setPassword(passwordEncoder.encode(String.valueOf(randomPassword)));
+        user.setModifiedBy("reset");
+        user.setModifiedOn(LocalDateTime.now());
+        userRepository.save(user);
         return null;
     }
 
@@ -193,5 +204,13 @@ public class UserServiceImpl implements UserService {
             return convertToResponseDto(user);
         }
         return "User not found";
+    }
+
+    @Override
+    public UserAuthDto validateUser(String token) {
+        UserAuthDto dto = new UserAuthDto();
+        dto.setEmailId(securityContext.getCurrentUserEmail());
+        dto.setRoles(securityContext.getCurrentUserRoles());
+        return dto;
     }
 }

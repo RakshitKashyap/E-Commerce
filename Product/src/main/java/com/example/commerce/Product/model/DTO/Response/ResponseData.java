@@ -1,4 +1,4 @@
-package com.example.userService.userService.models.dto.responseDto;
+package com.example.commerce.Product.model.DTO.Response;
 
 import lombok.Data;
 

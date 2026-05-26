@@ -38,4 +38,10 @@ public class UserImplController implements UserController{
         log.info("initiating endpoint to set new password");
         return new ResponseData(200, userService.resetPassword(emailId));
     }
+
+    @Override
+    public ResponseData validateUser(String token) {
+        log.info("initiating endpoint to validate user");
+        return new ResponseData(200, userService.validateUser(token));
+    }
 }
