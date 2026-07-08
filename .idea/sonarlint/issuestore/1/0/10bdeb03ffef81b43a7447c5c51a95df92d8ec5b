@@ -1,0 +1,14 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÜŠ€óşÿÿÿÿ
+k
+java:S3655S"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(â§‚íÿÿÿÿÿ
+h
+java:S6204""RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ÅêÌ
+R
+java:S1612""<Replace this lambda with method reference 'Audit::isStatus'.(ÅêÌ
+g
+java:S6204("RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(ùÛì
+Y
+java:S1612("DReplace this lambda with method reference 'this::convertToResponse'.(ùÛì
+A
+java:S1168N"+Return an empty collection instead of null.(¥¹ï

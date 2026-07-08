@@ -62,10 +62,6 @@ public class CategoryServiceImpl implements CategoryService {
         category.setCategoryUUID(UUID.randomUUID().toString());
         category.setCategoryName(requestDto.getCategoryName());
         category.setDescription(requestDto.getDescription());
-        category.setCreatedOn(LocalDateTime.now());
-        category.setCreatedBy("user");
-        category.setModifiedOn(LocalDateTime.now());
-        category.setModifiedBy("user");
         category.setStatus(true);
         log.info("saving entity >> "+category.toString());
         category = categoryRepository.save(category);

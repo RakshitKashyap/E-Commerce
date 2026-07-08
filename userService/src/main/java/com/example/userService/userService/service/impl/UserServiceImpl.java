@@ -1,5 +1,6 @@
 package com.example.userService.userService.service.impl;
 
+import com.example.userService.userService.exceptions.CustomExceptions;
 import com.example.userService.userService.models.dto.requestDto.UserFilterRequestDto;
 import com.example.userService.userService.models.dto.requestDto.UserRegistrationRequestDto;
 import com.example.userService.userService.models.dto.responseDto.UserAuthDto;
@@ -8,6 +9,8 @@ import com.example.userService.userService.models.entity.User;
 import com.example.userService.userService.models.entity.UserProfile;
 import com.example.userService.userService.repository.UserRepository;
 import com.example.userService.userService.service.UserService;
+import com.example.userService.userService.utils.CheckedExceptions;
+import com.example.userService.userService.utils.JwtUtility;
 import com.example.userService.userService.utils.UserRoles;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,8 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final JwtUtility jwtUtility;
 
     private final PasswordEncoder passwordEncoder;
     private final SecurityContextService securityContext;
@@ -208,9 +213,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserAuthDto validateUser(String token) {
+
+        if (token == null || !token.startsWith("Bearer ")) {
+            throw new CustomExceptions(CheckedExceptions.INVALID_TOKEN);
+        }
+
+        String jwt = token.substring(7);
+
+        if (!jwtUtility.validateToken(jwt)) {
+            throw new CustomExceptions(CheckedExceptions.INVALID_TOKEN);
+        }
+        String email = jwtUtility.extractEmail(jwt);
+        User user = userRepository.findByEmailId(email);
+        if (user == null || !user.isStatus()) {
+            throw new CustomExceptions(CheckedExceptions.USER_NOT_EXIST);
+        }
         UserAuthDto dto = new UserAuthDto();
-        dto.setEmailId(securityContext.getCurrentUserEmail());
-        dto.setRoles(securityContext.getCurrentUserRoles());
+        dto.setEmailId(user.getEmailId());
+        dto.setRoles(
+                user.getRoles()
+                        .stream()
+                        .map(Enum::name)
+                        .collect(Collectors.toSet()));
         return dto;
     }
 }

@@ -1,0 +1,6 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ˆùÃ¥
+}
+java:S1128"bRemove this unused import 'com.example.commerce.Product.model.DTO.Request.AddAssociateRequestDTO'.(áýå¿øÿÿÿÿ
+m
+java:S1128"WRemove this unused import 'com.example.commerce.Product.utils.enums.CategoryRelations'.(®Óªž

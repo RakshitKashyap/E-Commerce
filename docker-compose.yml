@@ -32,6 +32,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/userservice?allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
+      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m
     depends_on:
       mysql-db:
         condition: service_healthy
@@ -49,6 +50,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/orderservice?allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
+      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m
     depends_on:
       mysql-db:
         condition: service_healthy
@@ -66,6 +68,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/productservice?allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
+      - JAVA_TOOL_OPTIONS=-Xms128m -Xmx384m
     depends_on:
       mysql-db:
         condition: service_healthy

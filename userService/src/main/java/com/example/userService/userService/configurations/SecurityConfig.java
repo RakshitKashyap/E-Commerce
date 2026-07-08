@@ -34,6 +34,7 @@ public class SecurityConfig {
                                 "/configuration/ui",
                                 "/configuration/security",
                                 "/actuator/**",
+                                "/v1/**",
                                 "/api/v1/user/register",
                                 "/api/v1/user/login",
                                 "/api/v1/users/validate-user",

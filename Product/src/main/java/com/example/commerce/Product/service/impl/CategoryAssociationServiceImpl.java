@@ -61,10 +61,6 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
             associations.setAssociatedEntityId(requestDTO.getAssociatedEntityId());
             associations.setRelation(requestDTO.getRelations());
             associations.setStatus(true);
-            associations.setCreatedBy("user");
-            associations.setCreatedOn(LocalDateTime.now());
-            associations.setModifiedBy("user");
-            associations.setModifiedOn(LocalDateTime.now());
             categoryAssociations.add(associations);
         }
         categoryAssociations =  associationRepository.saveAll(categoryAssociations);
@@ -95,10 +91,6 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
             associations.setMainCategory(category.getId());
             associations.setRelation(CategoryRelations.BRAND);
             associations.setStatus(true);
-            associations.setCreatedBy("user");
-            associations.setCreatedOn(LocalDateTime.now());
-            associations.setModifiedBy("user");
-            associations.setModifiedOn(LocalDateTime.now());
             categoryAssociations.add(associations);
 
             AssociateEntitiesResponse response = new AssociateEntitiesResponse();
@@ -178,7 +170,7 @@ public class CategoryAssociationServiceImpl implements CategoryAssociationServic
             return category.getCategoryName();
         }
         else {
-            return "";
+            return "";  //:Todo go through this
         }
     }
 }

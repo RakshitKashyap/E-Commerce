@@ -1,0 +1,23 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÜŠ€óşÿÿÿÿ
+T
+java:S35167"9Refactor this method to not always return the same value.(ùÀİÿşÿÿÿÿ
+h
+java:S6204#"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(Ä³áÙ
+]
+java:S1612#"GReplace this lambda with method reference 'this::convertToResponseDto'.(Ä³áÙ
+A
+java:S1168<"+Return an empty collection instead of null.(¥¹ï
+A
+java:S1168A"+Return an empty collection instead of null.(¥¹ï
+Y
+java:S1854F">Remove this useless assignment to local variable "percentage".(áÂÉ‡øÿÿÿÿ
+J
+java:S1481F"/Remove this unused "percentage" local variable.(áÂÉ‡øÿÿÿÿ
+A
+java:S1168G"+Return an empty collection instead of null.(¥¹ï
+O
+java:S1854|"9Remove this useless assignment to local variable "brand".( È€¦
+r
+java:S1128
+"\Remove this unused import 'com.example.commerce.Product.service.CategoryAssociationService'.(šÔ÷æ

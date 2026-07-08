@@ -6,6 +6,7 @@ import com.example.commerce.Product.model.DTO.Request.AddAssociateRequestDTO;
 import com.example.commerce.Product.model.DTO.Request.CategoryRequestDto;
 import com.example.commerce.Product.model.DTO.Response.AssociateResponseDto;
 import com.example.commerce.Product.model.DTO.Response.CategoryResponseDto;
+import com.example.commerce.Product.model.DTO.Response.UserAuthDto;
 import com.example.commerce.Product.model.entity.Brand;
 import com.example.commerce.Product.service.CategoryAssociationService;
 import com.example.commerce.Product.service.CategoryService;
@@ -15,7 +16,6 @@ import java.util.Objects;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -33,7 +33,10 @@ public class CategoryController {
 
     @GetMapping("/viewAll")
     public ResponseEntity viewAllCategories(@RequestHeader(name = "Authorization") String token){
-        if (!userAuthClient.isValidUser(token)) {
+
+        UserAuthDto dto = userAuthClient.validateAndGetUser(token);
+
+        if (dto==null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Access Denied: Invalid or expired authorization token.");
         }

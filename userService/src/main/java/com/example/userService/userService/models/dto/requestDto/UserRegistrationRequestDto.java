@@ -3,7 +3,6 @@ package com.example.userService.userService.models.dto.requestDto;
 import com.example.userService.userService.utils.UserRoles;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.util.Set;
