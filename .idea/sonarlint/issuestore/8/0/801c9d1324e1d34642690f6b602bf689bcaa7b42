@@ -1,0 +1,8 @@
+
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(§Ÿ«Ñþÿÿÿÿ8È‚¶õä3
+L	java:S106"+Replace this use of System.out by a logger.(¾œè‹ùÿÿÿÿ8µ®¯¡æ3
+L	java:S106#"+Replace this use of System.out by a logger.(¾œè‹ùÿÿÿÿ8€ß°¡æ3
+]
+java:S1128";Remove this unused import 'lombok.RequiredArgsConstructor'.(ÑØŽúøÿÿÿÿ8äÕ‘¡æ3
+]
+java:S1128"@Remove this unused import 'org.apache.catalina.util.StringUtil'.(õÄÌ•8åÕ‘¡æ3

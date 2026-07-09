@@ -79,10 +79,6 @@ public class BrandServiceImpl implements BrandService {
         brand.setBrandDescription(requestDto.getBrandDescription());
         brand.setBrandUUID(UUID.randomUUID().toString());
         brand.setAvailableStatus(Boolean.TRUE);
-        brand.setCreatedBy("user");
-        brand.setCreatedOn(LocalDateTime.now());
-        brand.setModifiedBy("user");
-        brand.setModifiedOn(LocalDateTime.now());
         brand.setStatus(Boolean.TRUE);
         brand = brandRepository.save(brand);
         return convertToResponseDto(brand);
@@ -109,8 +105,6 @@ public class BrandServiceImpl implements BrandService {
         }
         brand.setBrandDescription(requestDto.getBrandDescription());
         brand.setBrandName(requestDto.getBrandName());
-        brand.setModifiedOn(LocalDateTime.now());
-        brand.setModifiedBy("user");
         brand = brandRepository.save(brand);
         return convertToResponseDto(brand);
     }
@@ -125,6 +119,3 @@ public class BrandServiceImpl implements BrandService {
         return false;
     }
 }
-
-
-//https://novellive.app/book/supreme-harem-god-system/cchapter-250-so-this-mist-is-it-from-your-curse

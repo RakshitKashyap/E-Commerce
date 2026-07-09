@@ -149,10 +149,6 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
                 ps.setFeature(spec.feature());
                 ps.setValue(spec.value());
                 ps.setStatus(spec.status());
-                ps.setCreatedBy("user");
-                ps.setCreatedOn(LocalDateTime.now());
-                ps.setModifiedBy("user");
-                ps.setModifiedOn(LocalDateTime.now());
                 specsList.add(ps);
             });
         }
@@ -161,10 +157,6 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         catalogue.setMaximumRetailPrice(requestDto.getMaximumRetailPrice());
         catalogue.setSellingPrice(requestDto.getSellingPrice());
         catalogue.setStatus(Boolean.TRUE);
-        catalogue.setCreatedBy("user");
-        catalogue.setCreatedOn(LocalDateTime.now());
-        catalogue.setModifiedBy("user");
-        catalogue.setModifiedOn(LocalDateTime.now());
         catalogue = catalogueRepository.save(catalogue);
         // map to category
         CategoryAssociations association = new CategoryAssociations();
@@ -173,10 +165,6 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
         association.setAssociationUUID(UUID.randomUUID().toString());
         association.setRelation(CategoryRelations.PRODUCT);
         association.setStatus(Boolean.TRUE);
-        association.setCreatedBy("user");
-        association.setCreatedOn(LocalDateTime.now());
-        association.setModifiedBy("user");
-        association.setModifiedOn(LocalDateTime.now());
         associationService.saveData(association);
         return transformToResponseDto(catalogue);
     }
@@ -204,10 +192,6 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
                 .maximumRetailPrice(catalogue.getMaximumRetailPrice())
                 .sellingPrice(catalogue.getSellingPrice())
                 .discount(catalogue.getDiscount())
-                .createdBy(catalogue.getCreatedBy())
-                .modifiedBy(catalogue.getModifiedBy())
-                .createdOn(catalogue.getCreatedOn())
-                .modifiedOn(catalogue.getModifiedOn())
                 .build();
 
         return responseDto;
@@ -250,10 +234,6 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
                     ps.setFeature(spec.feature());
                     ps.setValue(spec.value());
                     ps.setStatus(spec.status());
-                    ps.setCreatedBy("user");
-                    ps.setCreatedOn(LocalDateTime.now());
-                    ps.setModifiedBy("user");
-                    ps.setModifiedOn(LocalDateTime.now());
                     specsList.add(ps);
                 }else{
                     // todo
@@ -279,8 +259,6 @@ public class ProductCatalogueServiceImpl implements ProductCatalogueService {
             throw new CustomExceptions(CheckedExceptions.PRODUCT_NOT_AVAILABLE);
         }
         catalogue.setStatus(false);
-        catalogue.setModifiedBy("user");
-        catalogue.setModifiedOn(LocalDateTime.now());
         catalogue = catalogueRepository.save(catalogue);
         return true;
     }

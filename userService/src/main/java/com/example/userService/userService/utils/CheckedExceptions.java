@@ -11,7 +11,8 @@ public enum CheckedExceptions {
     TOKEN_EXPIRED(403, "Token Expired"),
     NO_CONTENT_AVAILABLE(204, "NO Content Available"),
     INVALID_INPUT(500, "Invalid Input"),
-    INVALID_REQUEST(400, "Invalid Request");
+    INVALID_REQUEST(400, "Invalid Request"),
+    INVALID_TOKEN(401, "Invalid Token");
 
     private int errorCode;
     private String message;

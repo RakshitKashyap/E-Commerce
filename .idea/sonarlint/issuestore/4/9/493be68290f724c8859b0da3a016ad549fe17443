@@ -1,0 +1,30 @@
+
+Q
+java:S3740#"/Provide the parametrized type for this generic.(ˆŸÀ¼şÿÿÿÿ8Î¨õä3
+Q
+java:S3740+"/Provide the parametrized type for this generic.(åñæõşÿÿÿÿ8Î¨õä3
+L
+java:S3740."/Provide the parametrized type for this generic.(©®×À8Ï¨õä3
+L
+java:S37403"/Provide the parametrized type for this generic.(°¶ì±8Ï¨õä3
+Q
+java:S37407"/Provide the parametrized type for this generic.(™Œˆ‚ıÿÿÿÿ8Ï¨õä3
+Q
+java:S3740:"/Provide the parametrized type for this generic.(ÔŸ¤“úÿÿÿÿ8Ï¨õä3
+Q
+java:S3740?"/Provide the parametrized type for this generic.(¨¼’åüÿÿÿÿ8Ï¨õä3
+Q
+java:S3740E"/Provide the parametrized type for this generic.(™Œˆ‚ıÿÿÿÿ8Ï¨õä3
+L
+java:S3740G"/Provide the parametrized type for this generic.(Ó…°Ü8Ï¨õä3
+Q
+java:S3740K"/Provide the parametrized type for this generic.(òÈåŞûÿÿÿÿ8Ğ¨õä3
+L
+java:S3740Z"/Provide the parametrized type for this generic.(·§á¦8Ğ¨õä3
+E
+java:S5411$"(Use a primitive boolean expression here.(³Ë”»8ìŒ ¡æ3
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ôûƒ¾8Ñ¨õä3
+«
+java:S4449E"ˆAnnotate the parameter with @javax.annotation.Nullable in constructor declaration, or make sure that null can not be passed as argument.(™Œˆ‚ıÿÿÿÿ8Ü¨õä3
+j
+java:S1858\"M"categoryId" is already a string, there's no need to call "toString()" on it.(çÔ©Ù8ç¨õä3

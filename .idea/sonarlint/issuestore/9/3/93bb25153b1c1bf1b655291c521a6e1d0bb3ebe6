@@ -1,0 +1,8 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÜŠ€óşÿÿÿÿ
+n
+java:S2737"WAdd logic to this catch clause or eliminate it and rethrow the exception automatically.(ö™û
+n
+java:S6204š"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(…“ÊÃûÿÿÿÿ
+H
+java:S1135µ"2Complete the task associated to this TODO comment.(µı‡V
